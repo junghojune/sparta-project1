@@ -1,4 +1,4 @@
-package com.sparta.projcet.delivery;
+package com.sparta.project.delivery;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
