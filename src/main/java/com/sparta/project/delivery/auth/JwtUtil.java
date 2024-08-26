@@ -1,4 +1,4 @@
-package com.sparta.project.delivery.user;
+package com.sparta.project.delivery.auth;
 
 import com.sparta.project.delivery.common.type.UserRoleEnum;
 import io.jsonwebtoken.*;
