@@ -1,7 +1,6 @@
 package com.sparta.project.delivery.address;
 
-import com.sparta.projcet.delivery.user.User;
-import com.sparta.project.delivery.common.UserRoleEnum;
+import com.sparta.project.delivery.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

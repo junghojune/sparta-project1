@@ -1,4 +1,4 @@
-package com.sparta.projcet.delivery.user;
+package com.sparta.project.delivery.user;
 
 import com.sparta.project.delivery.common.UserRoleEnum;
 import jakarta.persistence.*;
