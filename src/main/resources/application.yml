@@ -13,3 +13,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+# swagger
+
+springdoc:
+  swagger-ui:
+    path: /api-test
+    groups-order: asc
+  paths-to-match: /api/**
