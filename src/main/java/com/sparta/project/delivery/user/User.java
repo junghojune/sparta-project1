@@ -1,23 +1,21 @@
 package com.sparta.project.delivery.user;
 
-import com.sparta.project.delivery.common.UserRoleEnum;
+import com.sparta.project.delivery.common.BaseEntity;
+import com.sparta.project.delivery.common.type.UserRoleEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-import java.time.LocalDateTime;
-
-@RequiredArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 @Getter
 @Entity
 @Table(name = "p_user")
-public class User {
+public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String user_id;
-
+    @Column(name = "user_id")
+    private Long userId;
     // 사용자 이름
     @Column(length = 100, nullable = false)
     private String name;
@@ -34,19 +32,4 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
-    // 공개 여부
-    @Column(length = 100, nullable = false)
-    private boolean is_public;
-
-    // 삭제 여부
-    @Column(length = 100, nullable = false)
-    private boolean is_deleted;
-
-    // Audit 필드 (생성, 수정, 삭제 기록)
-    private LocalDateTime createdAt;
-    private String createBby;
-    private LocalDateTime updatedAt;
-    private String updatedBy;
-    private LocalDateTime deletedAt;
-    private String deletedBy;
 }
