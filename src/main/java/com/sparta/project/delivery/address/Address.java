@@ -1,46 +1,27 @@
 package com.sparta.project.delivery.address;
 
-import com.sparta.projcet.delivery.user.User;
-import com.sparta.project.delivery.common.UserRoleEnum;
+import com.sparta.project.delivery.common.BaseEntity;
+import com.sparta.project.delivery.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-import java.time.LocalDateTime;
-
-@RequiredArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 @Getter
 @Entity
 @Table(name = "p_address")
-public class Address {
+public class Address extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String address_id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "address_id")
+    private String addressId;
 
-    // user과 연관 관계 생성
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // 주소
+    @Setter
     @Column(length = 100, nullable = false)
     private String address;
-
-
-    // 공개 여부
-    @Column(length = 100, nullable = false)
-    private boolean is_public;
-
-    // 삭제 여부
-    @Column(length = 100, nullable = false)
-    private boolean is_deleted;
-
-    // Audit 필드 (생성, 수정, 삭제 기록)
-    private LocalDateTime createdAt;
-    private String createBby;
-    private LocalDateTime updatedAt;
-    private String updatedBy;
-    private LocalDateTime deletedAt;
-    private String deletedBy;
+}

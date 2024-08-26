@@ -1,7 +1,10 @@
 package com.sparta.project.delivery.store;
 
 
+import com.sparta.project.delivery.category.Category;
 import com.sparta.project.delivery.common.BaseEntity;
+import com.sparta.project.delivery.region.Region;
+import com.sparta.project.delivery.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,25 +20,8 @@ public class Store extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "store_id")
     private String storeId;
-
-    // User 엔티티 작성 후 변경
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "owner_id", nullable = false)
-    @Setter
-    private String owner;
-
-    // Region 엔티티 작성 후 변경
-    // @OneToOne
-    // @JoinColumn(name = "region_id", nullable = false)
-    @Setter
-    private String region;
-
-    // Category 엔티티 작성 후 변경
-    // @OneToOne
-    // @JoinColumn(name = "category_id", nullable = false)
-    @Setter
-    private String category;
 
     @Setter
     @Column(length = 100, nullable = false)
@@ -44,6 +30,21 @@ public class Store extends BaseEntity {
     @Setter
     @Column(length = 100, nullable = false)
     private String address;
+
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @Setter
+    @OneToOne
+    @JoinColumn(name = "region_id", nullable = false)
+    private Region region;
+
+    @Setter
+    @OneToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
 
     @Override
