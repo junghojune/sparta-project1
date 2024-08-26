@@ -3,12 +3,11 @@ package com.sparta.project.delivery.user;
 import com.sparta.project.delivery.common.BaseEntity;
 import com.sparta.project.delivery.common.type.UserRoleEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-@RequiredArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 @Getter
 @Entity
 @Table(name = "p_user")
