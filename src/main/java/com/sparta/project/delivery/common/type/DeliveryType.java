@@ -1,0 +1,1 @@
+package com.sparta.project.delivery.common.type;public enum DeliveryType {    DELIVERY("배달"),    PICKUP("픽업");    private String name;    DeliveryType(String name) {        this.name = name;    }    public String getName(){        return name;    }}
