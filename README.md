@@ -50,6 +50,10 @@ GitHub 프로젝트 탭을 생성하여 진행 상황을 관리합니다.
 1. **이슈 발행**: 프로젝트 관리 도구에서 이슈를 발행합니다.
 2. **브랜치 생성**: 이슈 번호를 포함한 브랜치를 만듭니다. (예: `#1`)
 3. **커밋 메시지**: 커밋 메시지에도 이슈 번호를 포함합니다. (예: `#1`)
+>
+>#2 - 내용(ex> menu entity 수정) :  개발 class, dependency, other files ..
+>
+>커밋 내용
 
 ### PR 규칙
 
@@ -79,8 +83,9 @@ PR 메시지는 다음 형식을 따릅니다
 ## 5. Entity 생성 시 어노테이션 통일
 -  setter의 경우에는 필요한 부분에 설정
 ```java
-@RequiredArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder // 빌더 패턴 협의
 @Getter
 @Entity
 @Table(name = "p_example")
