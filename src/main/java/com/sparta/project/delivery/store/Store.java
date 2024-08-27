@@ -1,7 +1,7 @@
 package com.sparta.project.delivery.store;
 
 
-import com.sparta.project.delivery.category.Category;
+import com.sparta.project.delivery.category.entity.Category;
 import com.sparta.project.delivery.common.BaseEntity;
 import com.sparta.project.delivery.region.Region;
 import com.sparta.project.delivery.user.User;
