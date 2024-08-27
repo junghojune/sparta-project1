@@ -1,4 +1,4 @@
-package com.sparta.project.delivery.store;
+package com.sparta.project.delivery.store.entity;
 
 
 import com.sparta.project.delivery.category.entity.Category;
