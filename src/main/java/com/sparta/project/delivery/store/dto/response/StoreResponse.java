@@ -1,7 +1,7 @@
 package com.sparta.project.delivery.store.dto.response;
 
 import com.sparta.project.delivery.category.dto.CategoryResponse;
-import com.sparta.project.delivery.region.Region;
+import com.sparta.project.delivery.region.entity.Region;
 import com.sparta.project.delivery.user.User;
 import lombok.Builder;
 

@@ -2,8 +2,8 @@ package com.sparta.project.delivery.store.service;
 
 
 import com.sparta.project.delivery.category.repository.CategoryRepository;
-import com.sparta.project.delivery.store.Store;
 import com.sparta.project.delivery.store.dto.StoreDto;
+import com.sparta.project.delivery.store.entity.Store;
 import com.sparta.project.delivery.store.repository.StoreRepository;
 import com.sparta.project.delivery.user.User;
 import lombok.RequiredArgsConstructor;

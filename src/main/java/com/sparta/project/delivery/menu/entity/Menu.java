@@ -1,4 +1,4 @@
-package com.sparta.project.delivery.menu;
+package com.sparta.project.delivery.menu.entity;
 
 
 import com.sparta.project.delivery.common.BaseEntity;

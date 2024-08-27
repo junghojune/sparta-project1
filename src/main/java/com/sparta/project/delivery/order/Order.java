@@ -53,5 +53,6 @@ public class Order extends BaseEntity {
     private Address address;
 
     @OneToMany(mappedBy = "order")
+    @Builder.Default
     private List<OrderMenu> orderMenuList = new ArrayList<>();
 }
