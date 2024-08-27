@@ -1,0 +1,1 @@
+package com.sparta.project.delivery.ai.dto;import com.sparta.project.delivery.user.User;public record AiRequest(        String question) {    public AiDto toDto(User user) {        return AiDto.of(user, question);    }}
