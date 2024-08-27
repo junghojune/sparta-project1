@@ -13,9 +13,9 @@ import java.util.Optional;
 public class JpaConfig {
     // Auditing 할 때 생성자 이름을 넣어주기 위한 필드 설정
     // // TODO : Security 가 정의되면 적용되면 변경하기
-//    @Bean
-//    public AuditorAware<String> auditorAware() {
-//        return () -> Optional.of("temporary");
-//    }
+    @Bean
+    public AuditorAware<String> auditorAware() {
+        return () -> Optional.of("temporary");
+    }
 }
 

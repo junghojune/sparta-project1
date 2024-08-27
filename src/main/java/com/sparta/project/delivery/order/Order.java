@@ -4,7 +4,7 @@ import com.sparta.project.delivery.address.Address;
 import com.sparta.project.delivery.common.BaseEntity;
 import com.sparta.project.delivery.common.type.DeliveryType;
 import com.sparta.project.delivery.common.type.OrderStatus;
-import com.sparta.project.delivery.store.Store;
+import com.sparta.project.delivery.store.entity.Store;
 import com.sparta.project.delivery.user.User;
 import jakarta.persistence.*;
 import lombok.*;
