@@ -24,3 +24,10 @@ springdoc:
     path: /api-test
     groups-order: asc
   paths-to-match: /api/**
+
+
+gemini:
+  api:
+    url: https://generativelanguage.googleapis.com
+    key: ${인증키}
+    model: gemini-pro
