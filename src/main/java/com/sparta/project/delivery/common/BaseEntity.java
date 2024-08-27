@@ -35,7 +35,7 @@ public abstract class BaseEntity {
     private LocalDateTime createdAt;
 
     @CreatedBy
-    @Column(name = "created_by", length = 100, nullable = false, updatable = false)
+    @Column(name = "created_by", length = 100, nullable = true, updatable = false)
     private String createdBy;
 
     @LastModifiedDate
@@ -54,4 +54,10 @@ public abstract class BaseEntity {
     @Column(name = "deleted_by", length = 100)
     private String deletedBy;
 
+
+    // 기본 생성자에서 기본값 설정 안하면 default 값이 안넣어짐
+    public BaseEntity() {
+        this.isPublic = true;
+        this.isDeleted = false;
+    }
 }
