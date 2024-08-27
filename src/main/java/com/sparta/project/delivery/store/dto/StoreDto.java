@@ -47,6 +47,7 @@ public record StoreDto(
                 .storeId(entity.getStoreId())
                 .user(entity.getUser())
                 .regionId(entity.getRegion().getRegionId())
+                .city(entity.getRegion().getCity())
                 .siGun(entity.getRegion().getSiGun())
                 .gu(entity.getRegion().getGu())
                 .village(entity.getRegion().getVillage())
