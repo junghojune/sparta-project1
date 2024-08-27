@@ -2,8 +2,8 @@ package com.sparta.project.delivery.store.dto;
 
 import com.sparta.project.delivery.category.entity.Category;
 import com.sparta.project.delivery.common.type.City;
-import com.sparta.project.delivery.region.Region;
-import com.sparta.project.delivery.store.Store;
+import com.sparta.project.delivery.region.entity.Region;
+import com.sparta.project.delivery.store.entity.Store;
 import com.sparta.project.delivery.user.User;
 import lombok.Builder;
 
