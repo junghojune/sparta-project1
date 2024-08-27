@@ -16,7 +16,6 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long userId;
-
     // 사용자 이름
     @Column(length = 100, nullable = false)
     private String name;
@@ -32,4 +31,5 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
+
 }
