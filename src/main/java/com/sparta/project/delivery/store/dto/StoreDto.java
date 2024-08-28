@@ -22,6 +22,8 @@ public record StoreDto(
         String categoryName,
         String name,
         String address,
+        Float averageRating,
+        Integer reviewCount,
         Boolean isPublic,
         Boolean isDeleted,
         LocalDateTime createdAt,
@@ -55,6 +57,8 @@ public record StoreDto(
                 .categoryName(entity.getCategory().getName())
                 .name(entity.getName())
                 .address(entity.getAddress())
+                .averageRating(entity.getAverageRating())
+                .reviewCount(entity.getReviewCount())
                 .isPublic(entity.getIsPublic())
                 .isDeleted(entity.getIsDeleted())
                 .createdAt(entity.getCreatedAt())
