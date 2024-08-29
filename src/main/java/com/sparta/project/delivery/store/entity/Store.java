@@ -49,6 +49,17 @@ public class Store extends BaseEntity {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+    @Setter
+    @Column(name = "average_rating", nullable = false)
+    @Builder.Default
+    private float averageRating = 0;
+
+    @Setter
+    @Column(name = "review_count", nullable = false)
+    @Builder.Default
+    private int reviewCount = 0;
+
+
 
     @Override
     public boolean equals(Object o) {
