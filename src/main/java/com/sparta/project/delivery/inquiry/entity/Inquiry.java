@@ -1,6 +1,7 @@
 package com.sparta.project.delivery.inquiry.entity;
 
 import com.sparta.project.delivery.common.BaseEntity;
+import com.sparta.project.delivery.inquiry.constant.InquiryStatus;
 import com.sparta.project.delivery.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,8 +34,9 @@ public class Inquiry extends BaseEntity {
     private String content;
 
     @Setter
+    @Enumerated(EnumType.STRING)
     @Column(length = 50, nullable = false)
-    private String status;
+    private InquiryStatus status;
 
     @Setter
     @Lob
