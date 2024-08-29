@@ -18,7 +18,7 @@ public class User extends BaseEntity {
     private Long userId;
     // 사용자 이름
     @Column(length = 100, nullable = false)
-    private String name;
+    private String username;
 
     // 사용자 이메일 (로그인 시 사용)
     @Column(length = 255, nullable = false)
