@@ -50,11 +50,6 @@ public class Review extends BaseEntity {
     @Builder.Default
     private boolean reportFlag = false;
 
-    @Setter
-    @Column(name = "report_message")
-    private String reportMessage;
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -66,5 +61,16 @@ public class Review extends BaseEntity {
     @Override
     public int hashCode() {
         return Objects.hashCode(reviewId);
+    }
+
+    public static Review of(User user, Order order, Store store, int rating, String comment) {
+        return Review.builder()
+                .user(user)
+                .order(order)
+                .store(store)
+                .rating(rating)
+                .comment(comment)
+                .reportFlag(false)
+                .build();
     }
 }
