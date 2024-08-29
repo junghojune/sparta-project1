@@ -1,4 +1,4 @@
-package com.sparta.project.delivery.order;
+package com.sparta.project.delivery.order.entity;
 
 import com.sparta.project.delivery.address.Address;
 import com.sparta.project.delivery.common.BaseEntity;
@@ -28,6 +28,9 @@ public class Order extends BaseEntity {
     @Column(length = 50)
     private String request;
 
+    @Column(name = "price", nullable = false)
+    private Long price;
+
     // 주문 상태(주문 진행, 주문 완료, 주문 취소, 음식 준비 완료, 배달중, 배달 완료, 픽업 완료)
     @Setter
     @Enumerated(EnumType.STRING)
@@ -55,4 +58,17 @@ public class Order extends BaseEntity {
     @OneToMany(mappedBy = "order")
     @Builder.Default
     private List<OrderMenu> orderMenuList = new ArrayList<>();
+
+
+    public static Order of(User user, Store store, Address address, String request, OrderStatus status, DeliveryType type, Long price) {
+        return Order.builder()
+                .user(user)
+                .store(store)
+                .address(address)
+                .request(request)
+                .status(status)
+                .type(type)
+                .price(price)
+                .build();
+    }
 }
