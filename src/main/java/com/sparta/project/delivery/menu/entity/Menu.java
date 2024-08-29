@@ -1,8 +1,8 @@
-package com.sparta.project.delivery.menu;
+package com.sparta.project.delivery.menu.entity;
 
 
 import com.sparta.project.delivery.common.BaseEntity;
-import com.sparta.project.delivery.store.Store;
+import com.sparta.project.delivery.store.entity.Store;
 import jakarta.persistence.*;
 import lombok.*;
 
