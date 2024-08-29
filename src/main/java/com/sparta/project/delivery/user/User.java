@@ -17,14 +17,17 @@ public class User extends BaseEntity {
     @Column(name = "user_id")
     private Long userId;
     // 사용자 이름
-    @Column(length = 100, nullable = false)
+    @Column(length = 100, nullable = false, unique = true)
+    @Setter
     private String username;
 
     // 사용자 이메일 (로그인 시 사용)
-    @Column(length = 255, nullable = false)
+    @Column(length = 255, nullable = false, unique = true)
+    @Setter
     private String email;
 
     @Column(length = 255, nullable = false)
+    @Setter
     private String password;
 
     // role
