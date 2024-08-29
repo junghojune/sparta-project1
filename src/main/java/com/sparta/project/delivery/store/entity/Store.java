@@ -4,9 +4,7 @@ package com.sparta.project.delivery.store.entity;
 
 import com.sparta.project.delivery.category.entity.Category;
 import com.sparta.project.delivery.common.BaseEntity;
-
 import com.sparta.project.delivery.region.entity.Region;
-
 import com.sparta.project.delivery.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,7 +29,7 @@ public class Store extends BaseEntity {
     private String name;
 
     @Setter
-    @Column(length = 100, nullable = false)
+    @Column(length = 100)
     private String address;
 
     @Setter
@@ -41,12 +39,12 @@ public class Store extends BaseEntity {
 
     @Setter
     @OneToOne
-    @JoinColumn(name = "region_id", nullable = false)
+    @JoinColumn(name = "region_id")
     private Region region;
 
     @Setter
     @OneToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @Setter
