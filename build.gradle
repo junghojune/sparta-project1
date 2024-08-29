@@ -27,11 +27,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
-	//Swagger
+    // db
+    runtimeOnly 'org.postgresql:postgresql'
+
+    //Swagger
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 
 	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
 
 	//lombok for test scope
@@ -46,7 +48,7 @@ dependencies {
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 
 	// Security
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
 }
 
 tasks.named('test') {

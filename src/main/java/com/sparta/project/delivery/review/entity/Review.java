@@ -1,7 +1,7 @@
 package com.sparta.project.delivery.review.entity;
 
 import com.sparta.project.delivery.common.BaseEntity;
-import com.sparta.project.delivery.order.Order;
+import com.sparta.project.delivery.order.entity.Order;
 import com.sparta.project.delivery.store.entity.Store;
 import com.sparta.project.delivery.user.User;
 import jakarta.persistence.*;
