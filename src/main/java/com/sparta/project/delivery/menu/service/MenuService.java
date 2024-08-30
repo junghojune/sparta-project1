@@ -1,6 +1,10 @@
 package com.sparta.project.delivery.menu.service;
 
 
+import com.sparta.project.delivery.auth.UserDetailsImpl;
+import com.sparta.project.delivery.common.exception.CustomException;
+import com.sparta.project.delivery.common.exception.DeliveryError;
+import com.sparta.project.delivery.menu.constant.MenuSearchType;
 import com.sparta.project.delivery.menu.dto.MenuDto;
 import com.sparta.project.delivery.menu.entity.Menu;
 import com.sparta.project.delivery.menu.repository.MenuRepository;
@@ -15,55 +19,63 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+import static com.sparta.project.delivery.common.exception.DeliveryError.*;
+
 @Service
 @RequiredArgsConstructor
 public class MenuService {
     private final MenuRepository menuRepository;
     private final StoreRepository storeRepository;
 
-    public String createMenu(String storeId, MenuDto dto) {
+    public void createMenu(String storeId, MenuDto dto, UserDetailsImpl userDetails) {
         Store store = storeRepository.findById(storeId).orElseThrow(
-                () -> new IllegalArgumentException("ID 에 해당하는 store 가 없습니다.")
+                () -> new CustomException(STORE_NOT_FOUND)
         );
-        // TODO : validation 어노테이션을 통해 record 에서 검증
-        if (dto.name() == null) {
-            throw new IllegalArgumentException("Menu 이름이 필요합니다.");
-        }
-        if (dto.price() == null || dto.price() < 0) {
-            throw new IllegalArgumentException("Menu 가격이 없거나 잘못되었습니다.");
-        }
-        if (dto.description() == null) {
-            throw new IllegalArgumentException("Menu 설명이 필요합니다.");
-        }
+        checkStoreOwner(store, userDetails);
+
         menuRepository.save(dto.toEntity(store));
-        return "Menu created";
     }
 
     @Transactional(readOnly = true)
-    public Page<MenuDto> getAllMenu(String storeId, Pageable pageable) {
-        return menuRepository.findAllByStore_StoreId(storeId, pageable)
-                .map(MenuDto::from);
+    public Page<MenuDto> getAllMenu(String storeId, MenuSearchType searchType, String searchValue, Pageable pageable) {
+        if (searchValue == null || searchValue.isBlank()) {
+            return menuRepository.findAllByStore_StoreId(storeId, pageable).map(MenuDto::from);
+        }
+        return switch (searchType) {
+            case NAME ->
+                    menuRepository.
+                            findAllByStore_StoreIdAndNameContainsIgnoreCase(storeId, searchValue, pageable)
+                            .map(MenuDto::from);
+            case DESCRIPTION ->
+                    menuRepository.
+                            findAllByStore_StoreIdAndDescriptionContainingIgnoreCase(storeId, searchValue, pageable)
+                            .map(MenuDto::from);
+        };
     }
 
     @Transactional(readOnly = true)
     public MenuDto getMenu(String storeId, String menuId) {
         Menu menu = menuRepository.findById(menuId).orElseThrow(
-                () -> new IllegalArgumentException("ID 에 해당하는 store 가 없습니다."));
+                () -> new CustomException(MENU_NOT_FOUND));
         if (!storeId.equals(menu.getStore().getStoreId())) {
-            throw new IllegalArgumentException("요청의 storeId 와 menu 의 storeId 가 다릅니다.");
+            //TODO : 에러 정의 후 수정
+            throw new CustomException(MENU_NOT_FOUND);
         }
         return MenuDto.from(menu);
     }
 
     @Transactional
-    public MenuDto updateMenu(String storeId, String menuId, MenuDto dto) {
+    public MenuDto updateMenu(String storeId, String menuId, MenuDto dto, UserDetailsImpl userDetails) {
         Menu menu = menuRepository.findById(menuId).orElseThrow(
-                () -> new IllegalArgumentException("ID 에 해당하는 store 가 없습니다.")
+                () -> new CustomException(MENU_NOT_FOUND)
         );
-        if (!storeId.equals(menu.getStore().getStoreId())) {
-            throw new IllegalArgumentException("요청의 storeId 와 menu 의 storeId 가 다릅니다.");
-        }
-        // TODO : validation 어노테이션을 통해 record 에서 검증
+        Store store = storeRepository.findById(storeId).orElseThrow(
+                () -> new CustomException(STORE_NOT_FOUND)
+        );
+        //가게의 메뉴인지, 가게 주인이 맞는 지 검증
+        checkIsStoreMenu(store, menu);
+        checkStoreOwner(store, userDetails);
+        // 내용 수정
         menu.setName(dto.name());
         menu.setDescription(dto.description());
         menu.setPrice(dto.price());
@@ -72,18 +84,30 @@ public class MenuService {
     }
 
     @Transactional
-    public String deleteMenu(String storeId, String menuId) {
+    public void deleteMenu(String storeId, String menuId, UserDetailsImpl userDetails) {
         Menu menu = menuRepository.findById(menuId).orElseThrow(
-                () -> new IllegalArgumentException("ID 에 해당하는 store 가 없습니다.")
+                () -> new CustomException(MENU_NOT_FOUND)
         );
-        if (!storeId.equals(menu.getStore().getStoreId())) {
-            throw new IllegalArgumentException("요청의 storeId 와 menu 의 storeId 가 다릅니다.");
-        }
-        //TODO : 메소드로 분리하기
-        menu.setIsDeleted(true);
-        menu.setIsPublic(false);
-        menu.setDeletedAt(LocalDateTime.now());
-        menu.setDeletedBy("Owner");
-        return "menu deleted";
+        Store store = storeRepository.findById(storeId).orElseThrow(
+                () -> new CustomException(STORE_NOT_FOUND)
+        );
+        checkIsStoreMenu(store, menu);
+        checkStoreOwner(store, userDetails);
+        // 삭제
+        menu.deleteMenu(LocalDateTime.now(), userDetails.getEmail());
+    }
+
+
+    private void checkIsStoreMenu(Store store, Menu menu){
+        //TODO : 에러 정의 후 수정
+        if (!store.getStoreId().equals(menu.getStore().getStoreId()))
+            throw new CustomException(MENU_NOT_FOUND);
+
+    }
+
+    private void checkStoreOwner(Store store, UserDetailsImpl userDetails) {
+        //TODO : 에러 정의 후 수정
+        if (!store.getUser().getEmail().equals(userDetails.getEmail()))
+            throw new CustomException(MENU_UPDATE_FAILED);
     }
 }

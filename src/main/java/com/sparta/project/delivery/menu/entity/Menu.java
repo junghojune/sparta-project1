@@ -6,6 +6,7 @@ import com.sparta.project.delivery.store.entity.Store;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -37,6 +38,13 @@ public class Menu extends BaseEntity {
     @Column(length = 500)
     private String description;
 
+
+    public void deleteMenu(LocalDateTime time, String deletedBy){
+        setIsPublic(false);
+        setIsDeleted(true);
+        setDeletedAt(time);
+        setDeletedBy(deletedBy);
+    }
 
     @Override
     public boolean equals(Object o) {
