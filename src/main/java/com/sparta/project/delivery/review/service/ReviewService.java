@@ -1,5 +1,6 @@
 package com.sparta.project.delivery.review.service;
 
+import com.sparta.project.delivery.common.exception.CustomException;
 import com.sparta.project.delivery.order.entity.Order;
 import com.sparta.project.delivery.order.repository.OrderRepository;
 import com.sparta.project.delivery.review.dto.ReviewDto;
@@ -10,45 +11,69 @@ import com.sparta.project.delivery.review.repository.ReviewReportRepository;
 import com.sparta.project.delivery.review.repository.ReviewRepository;
 import com.sparta.project.delivery.store.entity.Store;
 import com.sparta.project.delivery.store.repository.StoreRepository;
+import com.sparta.project.delivery.user.User;
+import com.sparta.project.delivery.user.dto.UserDto;
+import com.sparta.project.delivery.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import static com.sparta.project.delivery.common.exception.DeliveryError.*;
+
 @RequiredArgsConstructor
 @Service
 public class ReviewService {
+
     private final ReviewRepository reviewRepository;
     private final ReviewReportRepository reviewReportRepository;
     private final OrderRepository orderRepository;
     private final StoreRepository storeRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public void addReview(ReviewDto dto) {
-        Order order = orderRepository.findById(dto.orderId()).orElseThrow();
+        User user = userRepository.findById(dto.userDto().userId()).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
-        Review review = dto.toEntity(dto.user(), order, order.getStore());
+        Order order = orderRepository.findByOrderIdAndUser(dto.orderId(), user).orElseThrow(() -> new CustomException(REVIEW_CREATION_FAILED_NOT_ORDER));
+
+        Review review = dto.toEntity(user, order, order.getStore());
+
         reviewRepository.save(review);
     }
 
     public Page<ReviewDto> getReviewsByStoreId(String storeId, Pageable pageable) {
-        Store store = storeRepository.findById(storeId).orElseThrow();
-        Page<Review> reviews = reviewRepository.findAllByStoreAndReportFlag(store, false, pageable);
+        Store store = storeRepository.findById(storeId).orElseThrow(() -> new CustomException(STORE_NOT_FOUND));
+
+        Page<Review> reviews = reviewRepository.findAllByStoreAndReportFlagAndIsDeletedFalse(store, false, pageable);
 
         return reviews.map(ReviewDto::from);
     }
 
     @Transactional
-    public void deleteReview(String reviewId) {
-        Review review = reviewRepository.findById(reviewId).orElseThrow();
-        reviewRepository.delete(review);
+    public void deleteReview(UserDto userDto, String reviewId) {
+        User user = userRepository.findById(userDto.userId()).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+
+        Review review = reviewRepository.findByReviewIdAndUser(reviewId, user).orElseThrow(() -> new CustomException(REVIEW_NOT_FOUND));
+
+        if (review.getIsDeleted()) {
+            throw new CustomException(ALREADY_DELETED_REVIEW);
+        }
+
+        review.setIsDeleted(true);
     }
 
     @Transactional
     public void reportReview(ReviewReportDto dto) {
-        Review review = reviewRepository.findById(dto.reviewId()).orElseThrow();
-        ReviewReport reviewReport = dto.toEntity(dto.user(), review);
+        User user = userRepository.findById(dto.userDto().userId()).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+
+        Review review = reviewRepository.findById(dto.reviewId()).orElseThrow(() -> new CustomException(REVIEW_NOT_FOUND));
+
+        if (review.getReportFlag()) {
+            throw new CustomException(ALREADY_REPORTED_REVIEW);
+        }
+        ReviewReport reviewReport = dto.toEntity(user, review);
 
         reviewReportRepository.save(reviewReport);
 

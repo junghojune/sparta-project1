@@ -47,8 +47,7 @@ public class Review extends BaseEntity {
 
     @Setter
     @Column(name = "report_flag", nullable = false)
-    @Builder.Default
-    private boolean reportFlag = false;
+    private Boolean reportFlag;
 
     @Override
     public boolean equals(Object o) {

@@ -16,7 +16,7 @@ public record ReviewResponse(
                 dto.reviewId(),
                 dto.orderId(),
                 dto.store().storeId(),
-                dto.user().getName(),
+                dto.userDto().username(),
                 dto.rating(),
                 dto.comment(),
                 dto.createdAt()
