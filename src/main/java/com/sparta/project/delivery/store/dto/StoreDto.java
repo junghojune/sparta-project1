@@ -12,8 +12,9 @@ import java.time.LocalDateTime;
 @Builder
 public record StoreDto(
         String storeId,
-        User user, // TODO : UserDto 개발 후 변경
-        String regionId, //TODO : RegionDto 개발 후 변경
+        String userEmail,
+        String userName,
+        String regionId,
         City city,
         String siGun,
         String gu,
@@ -47,7 +48,8 @@ public record StoreDto(
     public static StoreDto from(Store entity){
         return StoreDto.builder()
                 .storeId(entity.getStoreId())
-                .user(entity.getUser())
+                .userEmail(entity.getUser().getEmail())
+                .userName(entity.getUser().getUsername())
                 .regionId(entity.getRegion().getRegionId())
                 .city(entity.getRegion().getCity())
                 .siGun(entity.getRegion().getSiGun())

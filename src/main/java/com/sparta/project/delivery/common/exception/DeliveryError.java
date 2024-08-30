@@ -11,6 +11,7 @@ public enum DeliveryError {
     AUTH_INVALID_CREDENTIALS(401, "AUTH_001", "유효하지 않은 자격 증명입니다."),
     AUTH_UNAUTHORIZED(403, "AUTH_002", "인증되지 않은 사용자입니다."),
     AUTH_TOKEN_EXPIRED(401, "AUTH_003", "토큰이 만료되었습니다."),
+    INVALID_ROLE(405, "AUTH_004", "유효하지 않은 역할입니다."),
 
     // Category (카테고리 관련 에러)
     CATEGORY_NOT_FOUND(404, "CATEGORY_001", "카테고리를 찾을 수 없습니다."),
@@ -50,10 +51,10 @@ public enum DeliveryError {
     REVIEW_DELETE_FAILED(400, "REVIEW_004", "리뷰 삭제에 실패하였습니다."),
 
     // Store (가게 관련 에러)
-    STORE_NOT_FOUND(404, "STORE_001", "가게를 찾을 수 없습니다."),
-    STORE_CREATION_FAILED(400, "STORE_002", "가게 생성에 실패하였습니다."),
-    STORE_UPDATE_FAILED(400, "STORE_003", "가게 업데이트에 실패하였습니다."),
-    STORE_DELETE_FAILED(400, "STORE_004", "가게 삭제에 실패하였습니다."),
+    STORE_NOT_FOUND(700, "STORE_001", "가게를 찾을 수 없습니다."),
+    STORE_CREATION_FAILED(701, "STORE_002", "가게 생성에 실패하였습니다."),
+    STORE_UPDATE_FAILED(702, "STORE_003", "가게 업데이트에 실패하였습니다."),
+    STORE_DELETE_FAILED(703, "STORE_004", "가게 삭제에 실패하였습니다."),
 
     // User (사용자 관련 에러)
     USER_NOT_FOUND(404, "USER_001", "사용자를 찾을 수 없습니다."),

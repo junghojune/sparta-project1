@@ -9,6 +9,7 @@ import com.sparta.project.delivery.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,7 +30,7 @@ public class Store extends BaseEntity {
     private String name;
 
     @Setter
-    @Column(length = 100)
+    @Column(length = 200)
     private String address;
 
     @Setter
@@ -58,6 +59,12 @@ public class Store extends BaseEntity {
     private int reviewCount = 0;
 
 
+    public void deleteStore(LocalDateTime time, String userEmail){
+        setIsPublic(false);
+        setIsDeleted(true);
+        setDeletedAt(time);
+        setDeletedBy(userEmail);
+    }
 
     @Override
     public boolean equals(Object o) {

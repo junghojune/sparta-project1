@@ -1,19 +1,18 @@
 package com.sparta.project.delivery.store.dto.response;
 
-import com.sparta.project.delivery.category.dto.CategoryResponse;
-import com.sparta.project.delivery.region.entity.Region;
-import com.sparta.project.delivery.user.User;
+import com.sparta.project.delivery.region.dto.RegionDto;
+import com.sparta.project.delivery.region.dto.RegionResponse;
+import com.sparta.project.delivery.store.dto.StoreDto;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
 
-//TODO : 다른 엔티티 정리되면 적용
 @Builder
 public record StoreResponse(
         String storeId,
-        User user, // TODO : UserDto 개발 후 변경
-        Region region, // TODO : RegionDto 개발 후 변경
-        CategoryResponse category,
+        String userEmail,
+        RegionResponse region,
+        String category,
         String name,
         String address,
         Boolean isPublic,
@@ -25,5 +24,27 @@ public record StoreResponse(
         LocalDateTime deletedAt,
         String deletedBy
 ) {
+
+
+    public static StoreResponse from(StoreDto dto) {
+        return StoreResponse.builder()
+                .storeId(dto.storeId())
+                .userEmail(dto.userEmail())
+                .region(RegionResponse.from(
+                        RegionDto.of(dto.city(),dto.siGun(),dto.gu(),dto.village()))
+                )
+                .category(dto.categoryName())
+                .name(dto.name())
+                .address(dto.address())
+                .isPublic(dto.isPublic())
+                .isDeleted(dto.isDeleted())
+                .createdAt(dto.createdAt())
+                .createdBy(dto.createdBy())
+                .updatedAt(dto.updatedAt())
+                .updatedBy(dto.updatedBy())
+                .deletedAt(dto.deletedAt())
+                .deletedBy(dto.deletedBy())
+                .build();
+    }
 
 }
