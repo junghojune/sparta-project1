@@ -29,7 +29,8 @@ public class NoticeService {
     private final NoticeRepository noticeRepository;
     private final UserRepository userRepository;
 
-    public void createNotice(NoticeDto dto) {
+    public void createNotice(NoticeDto dto, UserDetailsImpl userDetails) {
+        checkUserRole(userDetails);
         noticeRepository.save(dto.toEntity());
     }
 
@@ -52,7 +53,8 @@ public class NoticeService {
 
 
     @Transactional
-    public NoticeDto updateNotice(String noticeId, NoticeRequest request) {
+    public NoticeDto updateNotice(String noticeId, NoticeRequest request, UserDetailsImpl userDetails) {
+        checkUserRole(userDetails);
         Notice notice = noticeRepository.findById(noticeId).orElseThrow();
 
         notice.setTitle(request.title());
@@ -63,17 +65,16 @@ public class NoticeService {
 
     @Transactional
     public void deleteNotice(String noticeId, UserDetailsImpl userDetails) {
-        Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new CustomException(NOTICE_NOT_FOUND));
         String userEmail = checkUserRole(userDetails);
+        Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new CustomException(NOTICE_NOT_FOUND));
         notice.deleteNotice(LocalDateTime.now(), userEmail);
     }
 
     private String checkUserRole(UserDetailsImpl userDetails) {
         User user = userRepository.findByEmail(userDetails.getEmail()).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
         if (!user.getRole().equals(UserRoleEnum.MASTER) && !user.getRole().equals(UserRoleEnum.MANAGER)){
-            throw new CustomException(AUTH_UNAUTHORIZED);
+            throw new CustomException(INVALID_ROLE);
         }
         return user.getEmail();
-
     }
 }
