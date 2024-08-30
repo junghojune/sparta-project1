@@ -24,20 +24,21 @@ public enum DeliveryError {
     REGION_ARGS_EMPTY(853, "REGION_003", "지역 생성하는데 필수값이 없습니다."),
 
     // Inquiry (고객 센터 문의 관련 에러)
-    INQUIRY_NOT_FOUND(404, "INQUIRY_001", "문의 내용을 찾을 수 없습니다."),
-    INQUIRY_UPDATE_FAILED(400, "INQUIRY_002", "문의 내용을 업데이트할 수 없습니다."),
+    INQUIRY_NOT_FOUND(761, "INQUIRY_001", "문의 내용을 찾을 수 없습니다."),
+    INQUIRY_UPDATE_FAILED(762, "INQUIRY_002", "문의 내용을 업데이트할 수 없습니다."),
 
     // Menu (메뉴 관련 에러)
-    MENU_NOT_FOUND(404, "MENU_001", "메뉴를 찾을 수 없습니다."),
-    MENU_CREATION_FAILED(400, "MENU_002", "메뉴 생성에 실패하였습니다."),
-    MENU_UPDATE_FAILED(400, "MENU_003", "메뉴 업데이트에 실패하였습니다."),
-    MENU_DELETE_FAILED(400, "MENU_004", "메뉴 삭제에 실패하였습니다."),
+    MENU_NOT_FOUND(741, "MENU_001", "메뉴를 찾을 수 없습니다."),
+    MENU_CREATION_FAILED(742, "MENU_002", "메뉴 생성에 실패하였습니다."),
+    MENU_UPDATE_FAILED(743, "MENU_003", "메뉴 업데이트에 실패하였습니다."),
+    MENU_DELETE_FAILED(744, "MENU_004", "메뉴 삭제에 실패하였습니다."),
+    MENU_NOT_IN_STORE(745, "MENU_005", "가게의 메뉴가 아닙니다."),
 
     // Notice (공지사항 관련 에러)
-    NOTICE_NOT_FOUND(404, "NOTICE_001", "공지사항을 찾을 수 없습니다."),
-    NOTICE_CREATION_FAILED(400, "NOTICE_002", "공지사항 생성에 실패하였습니다."),
-    NOTICE_UPDATE_FAILED(400, "NOTICE_003", "공지사항 업데이트에 실패하였습니다."),
-    NOTICE_DELETE_FAILED(400, "NOTICE_004", "공지사항 삭제에 실패하였습니다."),
+    NOTICE_NOT_FOUND(721, "NOTICE_001", "공지사항을 찾을 수 없습니다."),
+    NOTICE_CREATION_FAILED(722, "NOTICE_002", "공지사항 생성에 실패하였습니다."),
+    NOTICE_UPDATE_FAILED(723, "NOTICE_003", "공지사항 업데이트에 실패하였습니다."),
+    NOTICE_DELETE_FAILED(724, "NOTICE_004", "공지사항 삭제에 실패하였습니다."),
 
     // Order (주문 관련 에러)
     ORDER_NOT_FOUND(931, "ORDER_001", "주문을 찾을 수 없습니다."),
