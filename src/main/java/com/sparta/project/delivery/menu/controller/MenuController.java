@@ -28,6 +28,7 @@ public class MenuController {
     private final MenuService menuService;
 
     @PostMapping("/{storeId}")
+
     @Operation(summary = "메뉴 생성", description = "가게의 메뉴를 생성하는 API 입니다.")
     public CommonResponse<Void> create(
             @PathVariable String storeId,

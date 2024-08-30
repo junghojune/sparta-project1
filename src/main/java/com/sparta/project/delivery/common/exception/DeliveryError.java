@@ -14,8 +14,14 @@ public enum DeliveryError {
     INVALID_ROLE(405, "AUTH_004", "유효하지 않은 역할입니다."),
 
     // Category (카테고리 관련 에러)
-    CATEGORY_NOT_FOUND(404, "CATEGORY_001", "카테고리를 찾을 수 없습니다."),
-    CATEGORY_ALREADY_EXISTS(409, "CATEGORY_002", "이미 존재하는 카테고리입니다."),
+    CATEGORY_NOT_FOUND(801, "CATEGORY_001", "카테고리를 찾을 수 없습니다."),
+    CATEGORY_ALREADY_EXISTS(802, "CATEGORY_002", "이미 존재하는 카테고리입니다."),
+    CATEGORY_ARGS_EMPTY(803, "CATEGORY_003", "카테고리 생성하는데 필수값이 없습니다."),
+
+    // Region (지역 관련 에러)
+    REGION_NOT_FOUND(851, "REGION_001", "지역을 찾을 수 없습니다."),
+    REGION_ALREADY_EXISTS(852, "REGION_002", "이미 존재하는 지역입니다."),
+    REGION_ARGS_EMPTY(853, "REGION_003", "지역 생성하는데 필수값이 없습니다."),
 
     // Inquiry (고객 센터 문의 관련 에러)
     INQUIRY_NOT_FOUND(404, "INQUIRY_001", "문의 내용을 찾을 수 없습니다."),
@@ -34,27 +40,29 @@ public enum DeliveryError {
     NOTICE_DELETE_FAILED(400, "NOTICE_004", "공지사항 삭제에 실패하였습니다."),
 
     // Order (주문 관련 에러)
-    ORDER_NOT_FOUND(404, "ORDER_001", "주문을 찾을 수 없습니다."),
-    ORDER_CREATION_FAILED(400, "ORDER_002", "주문 생성에 실패하였습니다."),
-    ORDER_UPDATE_FAILED(400, "ORDER_003", "주문 업데이트에 실패하였습니다."),
-    ORDER_CANCEL_FAILED(400, "ORDER_004", "주문 취소에 실패하였습니다."),
+    ORDER_NOT_FOUND(931, "ORDER_001", "주문을 찾을 수 없습니다."),
+    ORDER_CREATION_FAILED(932, "ORDER_002", "주문 생성에 실패하였습니다."),
+    ORDER_UPDATE_FAILED(933, "ORDER_003", "주문 업데이트에 실패하였습니다."),
+    ORDER_CANCEL_FAILED_TIMEOUT(934, "ORDER_004", "주문 취소 가능 시간이 아닙니다."),
+    ORDER_PRICE_NOT_SAME(935, "ORDER_005", "주문 가격이 실제 가격과 다릅니다."),
 
-    // Region (지역 관련 에러)
-    REGION_NOT_FOUND(404, "REGION_001", "지역을 찾을 수 없습니다."),
-    REGION_CREATION_FAILED(400, "REGION_002", "지역 생성에 실패하였습니다."),
-    REGION_UPDATE_FAILED(400, "REGION_003", "지역 업데이트에 실패하였습니다."),
+    // Address ( 배송지 관련 에러)
+    ADDRESS_NOT_FOUND(404, "ADDRESS_001", "베송지를 찾을 수 없습니다."),
 
     // Review (리뷰 관련 에러)
-    REVIEW_NOT_FOUND(404, "REVIEW_001", "리뷰를 찾을 수 없습니다."),
-    REVIEW_CREATION_FAILED(400, "REVIEW_002", "리뷰 생성에 실패하였습니다."),
-    REVIEW_UPDATE_FAILED(400, "REVIEW_003", "리뷰 업데이트에 실패하였습니다."),
-    REVIEW_DELETE_FAILED(400, "REVIEW_004", "리뷰 삭제에 실패하였습니다."),
+    REVIEW_NOT_FOUND(961, "REVIEW_001", "리뷰를 찾을 수 없습니다."),
+    REVIEW_CREATION_FAILED_NOT_ORDER(962, "REVIEW_002", "주문한 이력이 없습니다."),
+    REVIEW_UPDATE_FAILED(963, "REVIEW_003", "리뷰 업데이트에 실패하였습니다."),
+    REVIEW_DELETE_FAILED(964, "REVIEW_004", "리뷰 삭제에 실패하였습니다."),
+    ALREADY_REPORTED_REVIEW(965, "REVIEW_005", "이미 신고된 리뷰입니다."),
+    ALREADY_DELETED_REVIEW(966, "REVIEW_006", "이미 삭제된 리뷰입니다."),
 
     // Store (가게 관련 에러)
     STORE_NOT_FOUND(700, "STORE_001", "가게를 찾을 수 없습니다."),
     STORE_CREATION_FAILED(701, "STORE_002", "가게 생성에 실패하였습니다."),
     STORE_UPDATE_FAILED(702, "STORE_003", "가게 업데이트에 실패하였습니다."),
     STORE_DELETE_FAILED(703, "STORE_004", "가게 삭제에 실패하였습니다."),
+    STORE_IS_NOT_USER(704, "STORE_005", "가게의 주인이 아닙니다."),
 
     // User (사용자 관련 에러)
     USER_NOT_FOUND(404, "USER_001", "사용자를 찾을 수 없습니다."),
@@ -63,8 +71,8 @@ public enum DeliveryError {
     USER_DELETE_FAILED(400, "USER_004", "사용자 삭제에 실패하였습니다."),
 
     // AI 도메인 관련 에러
-    AI_QUESTION_INVALID(400, "AI_001", "질문은 1자 이상 50자 이하로 작성해야 합니다."),
-    AI_COMPLETION_FAILED(500, "AI_002", "AI 응답 생성에 실패하였습니다."),
+    AI_QUESTION_INVALID(900, "AI_001", "질문은 1자 이상 50자 이하로 작성해야 합니다."),
+    AI_COMPLETION_FAILED(901, "AI_002", "AI 응답 생성에 실패하였습니다."),
     AI_RESPONSE_NOT_FOUND(404, "AI_003", "AI 응답을 찾을 수 없습니다."),
     AI_SERVICE_UNAVAILABLE(503, "AI_004", "AI 서비스가 현재 사용 불가능합니다."),
     AI_MODEL_NOT_CONFIGURED(500, "AI_005", "AI 모델이 설정되지 않았습니다."),
