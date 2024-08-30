@@ -3,6 +3,8 @@ package com.sparta.project.delivery.store.controller;
 
 import com.sparta.project.delivery.auth.UserDetailsImpl;
 import com.sparta.project.delivery.common.response.CommonResponse;
+import com.sparta.project.delivery.notice.constant.NoticeSearchType;
+import com.sparta.project.delivery.store.constant.StoreSearchType;
 import com.sparta.project.delivery.store.dto.request.CreateStore;
 import com.sparta.project.delivery.store.dto.request.UpdateStore;
 import com.sparta.project.delivery.store.dto.response.StoreResponse;
@@ -51,12 +53,16 @@ public class StoreController {
             @RequestParam(name = "regionId", required = false) String regionId,
             @Parameter(name = "categoryId", description = "카테고리 ID(검색용)", allowEmptyValue = true)
             @RequestParam(name = "categoryId", required = false) String categoryId,
+            @Parameter(name = "searchType",description = "검색하고자 하는 필드")
+            @RequestParam(required = false,name = "searchType") StoreSearchType searchType,
+            @Parameter(name = "searchValue",description = "검색 키워드 - 검색 타입에 맞게 검색")
+            @RequestParam(required = false, name = "searchValue") String searchValue,
             @ParameterObject @PageableDefault(
                     size = 10, sort = {"createdAt", "updatedAt"}, direction = Sort.Direction.DESC
             ) Pageable pageable
     ) {
         return CommonResponse.success(
-                storeService.getAllStores(regionId, categoryId, pageable).map(StoreResponse::from)
+                storeService.getAllStores(regionId, categoryId,searchType,searchValue, pageable).map(StoreResponse::from)
         );
     }
 

@@ -6,8 +6,10 @@ import com.sparta.project.delivery.category.entity.Category;
 import com.sparta.project.delivery.category.repository.CategoryRepository;
 import com.sparta.project.delivery.common.exception.CustomException;
 import com.sparta.project.delivery.common.type.UserRoleEnum;
+import com.sparta.project.delivery.notice.dto.NoticeDto;
 import com.sparta.project.delivery.region.entity.Region;
 import com.sparta.project.delivery.region.repository.RegionRepository;
+import com.sparta.project.delivery.store.constant.StoreSearchType;
 import com.sparta.project.delivery.store.dto.StoreDto;
 import com.sparta.project.delivery.store.entity.Store;
 import com.sparta.project.delivery.store.repository.StoreRepository;
@@ -34,7 +36,7 @@ public class StoreService {
     private final CategoryRepository CategoryRepository;
     private final UserRepository userRepository;
 
-    public void createStore(StoreDto storeDto, UserDetailsImpl userDetails){
+    public void createStore(StoreDto storeDto, UserDetailsImpl userDetails) {
         // 연관 관계 저장을 위한 Region, Category 조회
         Region region = regionRepository.findById(storeDto.regionId()).orElseThrow(
                 () -> new CustomException(REGION_NOT_FOUND));
@@ -42,7 +44,7 @@ public class StoreService {
                 () -> new CustomException(CATEGORY_NOT_FOUND));
         User user = userRepository.findByEmail(userDetails.getEmail()).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
         // 권한 체크
-        if (user.getRole() == UserRoleEnum.CUSTOMER){
+        if (user.getRole() == UserRoleEnum.CUSTOMER) {
             throw new CustomException(INVALID_ROLE);
         }
         //Store 저장
@@ -58,15 +60,17 @@ public class StoreService {
 
 
     @Transactional(readOnly = true)
-    public Page<StoreDto> getAllStores(String regionId, String categoryId, Pageable pageable) {
-        return storeRepository.searchStore(regionId, categoryId, pageable).map(StoreDto::from);
+    public Page<StoreDto> getAllStores(String regionId, String categoryId,
+                                       StoreSearchType searchType, String searchValue, Pageable pageable) {
+
+        return storeRepository.searchStore(regionId, categoryId,searchType, searchValue, pageable).map(StoreDto::from);
     }
 
     public StoreDto updateStore(String storeId, StoreDto dto, UserDetailsImpl userDetails) {
         // 유저 권한 체크
-        User user = userRepository.findByEmail(userDetails.getEmail()).orElseThrow(()-> new CustomException(USER_NOT_FOUND));
+        User user = userRepository.findByEmail(userDetails.getEmail()).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
         // 식당 주인과 매니저만 변경 가능
-        if (user.getRole().equals(UserRoleEnum.CUSTOMER) || user.getRole().equals(UserRoleEnum.MASTER)){
+        if (user.getRole().equals(UserRoleEnum.CUSTOMER) || user.getRole().equals(UserRoleEnum.MASTER)) {
             throw new CustomException(INVALID_ROLE);
         }
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new CustomException(STORE_NOT_FOUND));
