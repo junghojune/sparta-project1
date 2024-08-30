@@ -10,6 +10,7 @@ import com.sparta.project.delivery.inquiry.dto.InquirySetReplyRequest;
 import com.sparta.project.delivery.inquiry.service.InquiryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/inquiry")
+@Tag(name = "Inquiry API", description = "고객센터 신고를 추가/수정/조회/삭제 할 수 있는 API 입니다.")
 public class InquiryController {
 
     private final InquiryService inquiryService;

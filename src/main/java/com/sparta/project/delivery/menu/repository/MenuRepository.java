@@ -6,7 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MenuRepository extends JpaRepository<Menu, String> {
-    // queryDSL 적용 후 impl 에서 매핑 해서 반환
     Page<Menu> findAllByStore_StoreId(String storeId, Pageable pageable);
-    Menu findByStore_StoreIdAndMenuId(String storeId,String menuId);
+    Page<Menu> findAllByStore_StoreIdAndNameContainsIgnoreCase(String storeId, String searchValue, Pageable pageable);
+    Page<Menu> findAllByStore_StoreIdAndDescriptionContainingIgnoreCase(String storeId, String searchValue, Pageable pageable);
+
 }
