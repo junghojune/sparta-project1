@@ -40,10 +40,14 @@ public enum DeliveryError {
     NOTICE_DELETE_FAILED(400, "NOTICE_004", "공지사항 삭제에 실패하였습니다."),
 
     // Order (주문 관련 에러)
-    ORDER_NOT_FOUND(404, "ORDER_001", "주문을 찾을 수 없습니다."),
-    ORDER_CREATION_FAILED(400, "ORDER_002", "주문 생성에 실패하였습니다."),
-    ORDER_UPDATE_FAILED(400, "ORDER_003", "주문 업데이트에 실패하였습니다."),
-    ORDER_CANCEL_FAILED(400, "ORDER_004", "주문 취소에 실패하였습니다."),
+    ORDER_NOT_FOUND(901, "ORDER_001", "주문을 찾을 수 없습니다."),
+    ORDER_CREATION_FAILED(902, "ORDER_002", "주문 생성에 실패하였습니다."),
+    ORDER_UPDATE_FAILED(903, "ORDER_003", "주문 업데이트에 실패하였습니다."),
+    ORDER_CANCEL_FAILED_TIMEOUT(904, "ORDER_004", "주문 취소 가능 시간이 아닙니다."),
+    ORDER_PRICE_NOT_SAME(905, "ORDER_005", "주문 가격이 실제 가격과 다릅니다."),
+
+    // Address ( 배송지 관련 에러)
+    ADDRESS_NOT_FOUND(404, "ADDRESS_001", "베송지를 찾을 수 없습니다."),
 
     // Review (리뷰 관련 에러)
     REVIEW_NOT_FOUND(404, "REVIEW_001", "리뷰를 찾을 수 없습니다."),
@@ -56,6 +60,7 @@ public enum DeliveryError {
     STORE_CREATION_FAILED(701, "STORE_002", "가게 생성에 실패하였습니다."),
     STORE_UPDATE_FAILED(702, "STORE_003", "가게 업데이트에 실패하였습니다."),
     STORE_DELETE_FAILED(703, "STORE_004", "가게 삭제에 실패하였습니다."),
+    STORE_IS_NOT_USER(704, "STORE_005", "가게의 주인이 아닙니다."),
 
     // User (사용자 관련 에러)
     USER_NOT_FOUND(404, "USER_001", "사용자를 찾을 수 없습니다."),

@@ -14,8 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.sparta.project.delivery.common.exception.DeliveryError.*;
-import static com.sparta.project.delivery.common.type.UserRoleEnum.MANAGER;
-import static com.sparta.project.delivery.common.type.UserRoleEnum.MASTER;
+import static com.sparta.project.delivery.common.type.UserRoleEnum.*;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +32,7 @@ public class CategoryService {
         User user = userRepository.findById(userDto.userId())
                 .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
-        if (user.getRole().equals(MANAGER) || user.getRole().equals(MASTER)) {
+        if (user.getRole().equals(OWNER) || user.getRole().equals(CUSTOMER)) {
             throw new CustomException(AUTH_INVALID_CREDENTIALS);
         }
 

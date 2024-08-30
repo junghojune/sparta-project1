@@ -32,7 +32,7 @@ public class AiController {
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content),
             @ApiResponse(responseCode = "401", description = "유효하지 않은 자격 증명입니다.", content = @Content),
             @ApiResponse(responseCode = "900", description = "질문은 1자 이상 50자 이하로 작성해야 합니다.", content = @Content),
-            @ApiResponse(responseCode = "901", description = "AI 응답 생성에 실패하였습니다.", content = @Content),
+            @ApiResponse(responseCode = "901", description = "AI 응답 생성에 실패하였습니다.", content = @Content)
     })
     public AiResponse addResponse(
             @AuthenticationPrincipal UserDetailsImpl userDetail,
