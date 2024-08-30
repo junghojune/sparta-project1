@@ -62,8 +62,8 @@ public enum DeliveryError {
     USER_DELETE_FAILED(400, "USER_004", "사용자 삭제에 실패하였습니다."),
 
     // AI 도메인 관련 에러
-    AI_QUESTION_INVALID(400, "AI_001", "질문은 1자 이상 50자 이하로 작성해야 합니다."),
-    AI_COMPLETION_FAILED(500, "AI_002", "AI 응답 생성에 실패하였습니다."),
+    AI_QUESTION_INVALID(900, "AI_001", "질문은 1자 이상 50자 이하로 작성해야 합니다."),
+    AI_COMPLETION_FAILED(901, "AI_002", "AI 응답 생성에 실패하였습니다."),
     AI_RESPONSE_NOT_FOUND(404, "AI_003", "AI 응답을 찾을 수 없습니다."),
     AI_SERVICE_UNAVAILABLE(503, "AI_004", "AI 서비스가 현재 사용 불가능합니다."),
     AI_MODEL_NOT_CONFIGURED(500, "AI_005", "AI 모델이 설정되지 않았습니다."),
