@@ -40,20 +40,22 @@ public enum DeliveryError {
     NOTICE_DELETE_FAILED(400, "NOTICE_004", "공지사항 삭제에 실패하였습니다."),
 
     // Order (주문 관련 에러)
-    ORDER_NOT_FOUND(901, "ORDER_001", "주문을 찾을 수 없습니다."),
-    ORDER_CREATION_FAILED(902, "ORDER_002", "주문 생성에 실패하였습니다."),
-    ORDER_UPDATE_FAILED(903, "ORDER_003", "주문 업데이트에 실패하였습니다."),
-    ORDER_CANCEL_FAILED_TIMEOUT(904, "ORDER_004", "주문 취소 가능 시간이 아닙니다."),
-    ORDER_PRICE_NOT_SAME(905, "ORDER_005", "주문 가격이 실제 가격과 다릅니다."),
+    ORDER_NOT_FOUND(931, "ORDER_001", "주문을 찾을 수 없습니다."),
+    ORDER_CREATION_FAILED(932, "ORDER_002", "주문 생성에 실패하였습니다."),
+    ORDER_UPDATE_FAILED(933, "ORDER_003", "주문 업데이트에 실패하였습니다."),
+    ORDER_CANCEL_FAILED_TIMEOUT(934, "ORDER_004", "주문 취소 가능 시간이 아닙니다."),
+    ORDER_PRICE_NOT_SAME(935, "ORDER_005", "주문 가격이 실제 가격과 다릅니다."),
 
     // Address ( 배송지 관련 에러)
     ADDRESS_NOT_FOUND(404, "ADDRESS_001", "베송지를 찾을 수 없습니다."),
 
     // Review (리뷰 관련 에러)
-    REVIEW_NOT_FOUND(404, "REVIEW_001", "리뷰를 찾을 수 없습니다."),
-    REVIEW_CREATION_FAILED(400, "REVIEW_002", "리뷰 생성에 실패하였습니다."),
-    REVIEW_UPDATE_FAILED(400, "REVIEW_003", "리뷰 업데이트에 실패하였습니다."),
-    REVIEW_DELETE_FAILED(400, "REVIEW_004", "리뷰 삭제에 실패하였습니다."),
+    REVIEW_NOT_FOUND(961, "REVIEW_001", "리뷰를 찾을 수 없습니다."),
+    REVIEW_CREATION_FAILED_NOT_ORDER(962, "REVIEW_002", "주문한 이력이 없습니다."),
+    REVIEW_UPDATE_FAILED(963, "REVIEW_003", "리뷰 업데이트에 실패하였습니다."),
+    REVIEW_DELETE_FAILED(964, "REVIEW_004", "리뷰 삭제에 실패하였습니다."),
+    ALREADY_REPORTED_REVIEW(965, "REVIEW_005", "이미 신고된 리뷰입니다."),
+    ALREADY_DELETED_REVIEW(966, "REVIEW_006", "이미 삭제된 리뷰입니다."),
 
     // Store (가게 관련 에러)
     STORE_NOT_FOUND(700, "STORE_001", "가게를 찾을 수 없습니다."),
