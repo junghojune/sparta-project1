@@ -14,8 +14,14 @@ public enum DeliveryError {
     INVALID_ROLE(405, "AUTH_004", "유효하지 않은 역할입니다."),
 
     // Category (카테고리 관련 에러)
-    CATEGORY_NOT_FOUND(404, "CATEGORY_001", "카테고리를 찾을 수 없습니다."),
-    CATEGORY_ALREADY_EXISTS(409, "CATEGORY_002", "이미 존재하는 카테고리입니다."),
+    CATEGORY_NOT_FOUND(801, "CATEGORY_001", "카테고리를 찾을 수 없습니다."),
+    CATEGORY_ALREADY_EXISTS(802, "CATEGORY_002", "이미 존재하는 카테고리입니다."),
+    CATEGORY_ARGS_EMPTY(803, "CATEGORY_003", "카테고리 생성하는데 필수값이 없습니다."),
+
+    // Region (지역 관련 에러)
+    REGION_NOT_FOUND(851, "REGION_001", "지역을 찾을 수 없습니다."),
+    REGION_ALREADY_EXISTS(852, "REGION_002", "이미 존재하는 지역입니다."),
+    REGION_ARGS_EMPTY(853, "REGION_003", "지역 생성하는데 필수값이 없습니다."),
 
     // Inquiry (고객 센터 문의 관련 에러)
     INQUIRY_NOT_FOUND(404, "INQUIRY_001", "문의 내용을 찾을 수 없습니다."),
@@ -38,11 +44,6 @@ public enum DeliveryError {
     ORDER_CREATION_FAILED(400, "ORDER_002", "주문 생성에 실패하였습니다."),
     ORDER_UPDATE_FAILED(400, "ORDER_003", "주문 업데이트에 실패하였습니다."),
     ORDER_CANCEL_FAILED(400, "ORDER_004", "주문 취소에 실패하였습니다."),
-
-    // Region (지역 관련 에러)
-    REGION_NOT_FOUND(404, "REGION_001", "지역을 찾을 수 없습니다."),
-    REGION_CREATION_FAILED(400, "REGION_002", "지역 생성에 실패하였습니다."),
-    REGION_UPDATE_FAILED(400, "REGION_003", "지역 업데이트에 실패하였습니다."),
 
     // Review (리뷰 관련 에러)
     REVIEW_NOT_FOUND(404, "REVIEW_001", "리뷰를 찾을 수 없습니다."),
