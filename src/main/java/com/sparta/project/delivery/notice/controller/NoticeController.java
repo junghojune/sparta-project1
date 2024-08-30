@@ -51,15 +51,22 @@ public class NoticeController {
 
     @PostMapping
     @Operation(summary = "공지사항 생성", description = "공지사항을 생성하는 API 입니다. (관리자/매니저 권한)")
-    public CommonResponse<Void> create(@RequestBody NoticeRequest request) {
-        noticeService.createNotice(request.toDto());
+    public CommonResponse<Void> create(
+            @RequestBody NoticeRequest request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+            ) {
+        noticeService.createNotice(request.toDto(), userDetails);
         return CommonResponse.success("공지사항 생성 완료");
     }
 
     @PutMapping("/{noticeId}")
     @Operation(summary = "공지사항 수정", description = "공지사항을 수정하는 API 입니다. (관리자/매니저 권한)")
-    public CommonResponse<NoticeResponse> update(@PathVariable String noticeId, @RequestBody NoticeRequest request) {
-        return CommonResponse.success(NoticeResponse.from(noticeService.updateNotice(noticeId, request)));
+    public CommonResponse<NoticeResponse> update(
+            @PathVariable String noticeId,
+            @RequestBody NoticeRequest request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        return CommonResponse.success(NoticeResponse.from(noticeService.updateNotice(noticeId, request, userDetails)));
     }
 
     @DeleteMapping("/{noticeId}")

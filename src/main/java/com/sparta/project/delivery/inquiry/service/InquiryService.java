@@ -87,11 +87,8 @@ public class InquiryService {
     //관리자 OR 매니저만 신고 내용 답변 달기
     @Transactional
     public void replyToInquiry(String inquiryId, InquirySetReplyRequest request, UserDetailsImpl userDetails) {
+        checkUserRole(userDetails);
         Inquiry inquiry = getById(inquiryId);
-        User user = userRepository.findByEmail(userDetails.getEmail()).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
-        if (!user.getRole().equals(UserRoleEnum.MASTER) && !user.getRole().equals(UserRoleEnum.MANAGER)){
-            throw new CustomException(INQUIRY_UPDATE_FAILED);
-        }
         //답변 달면 완료로 상태 수정
         inquiry.setResponse(request.response());
         inquiry.setStatus(InquiryStatus.COMPLETED);
@@ -99,5 +96,12 @@ public class InquiryService {
 
     private Inquiry getById(String inquiryId){
         return inquiryRepository.findById(inquiryId).orElseThrow(()-> new CustomException(INQUIRY_NOT_FOUND));
+    }
+
+    private void checkUserRole(UserDetailsImpl userDetails) {
+        User user = userRepository.findByEmail(userDetails.getEmail()).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+        if (!user.getRole().equals(UserRoleEnum.MASTER) && !user.getRole().equals(UserRoleEnum.MANAGER)){
+            throw new CustomException(INVALID_ROLE);
+        }
     }
 }

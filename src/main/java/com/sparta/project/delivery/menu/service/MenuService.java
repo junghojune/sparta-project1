@@ -57,10 +57,8 @@ public class MenuService {
     public MenuDto getMenu(String storeId, String menuId) {
         Menu menu = menuRepository.findById(menuId).orElseThrow(
                 () -> new CustomException(MENU_NOT_FOUND));
-        if (!storeId.equals(menu.getStore().getStoreId())) {
-            //TODO : 에러 정의 후 수정
-            throw new CustomException(MENU_NOT_FOUND);
-        }
+        checkIsStoreMenu(storeId, menu);
+
         return MenuDto.from(menu);
     }
 
@@ -73,7 +71,7 @@ public class MenuService {
                 () -> new CustomException(STORE_NOT_FOUND)
         );
         //가게의 메뉴인지, 가게 주인이 맞는 지 검증
-        checkIsStoreMenu(store, menu);
+        checkIsStoreMenu(store.getStoreId(), menu);
         checkStoreOwner(store, userDetails);
         // 내용 수정
         menu.setName(dto.name());
@@ -91,23 +89,21 @@ public class MenuService {
         Store store = storeRepository.findById(storeId).orElseThrow(
                 () -> new CustomException(STORE_NOT_FOUND)
         );
-        checkIsStoreMenu(store, menu);
+        checkIsStoreMenu(store.getStoreId(), menu);
         checkStoreOwner(store, userDetails);
         // 삭제
         menu.deleteMenu(LocalDateTime.now(), userDetails.getEmail());
     }
 
 
-    private void checkIsStoreMenu(Store store, Menu menu){
-        //TODO : 에러 정의 후 수정
-        if (!store.getStoreId().equals(menu.getStore().getStoreId()))
-            throw new CustomException(MENU_NOT_FOUND);
+    private void checkIsStoreMenu(String storeId, Menu menu){
+        if (!storeId.equals(menu.getStore().getStoreId()))
+            throw new CustomException(MENU_NOT_IN_STORE);
 
     }
 
     private void checkStoreOwner(Store store, UserDetailsImpl userDetails) {
-        //TODO : 에러 정의 후 수정
         if (!store.getUser().getEmail().equals(userDetails.getEmail()))
-            throw new CustomException(MENU_UPDATE_FAILED);
+            throw new CustomException(STORE_IS_NOT_USER);
     }
 }
