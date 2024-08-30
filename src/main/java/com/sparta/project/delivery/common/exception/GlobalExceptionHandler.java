@@ -24,9 +24,8 @@ public class GlobalExceptionHandler {
         log.error(">>예외 ",e);
 
         var response = ApiErrorResponse.builder()
-                .errorCode("500")
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message(e.getMessage())
-                .localDateTime(LocalDateTime.now())
                 .build();
 
         return ResponseEntity.status(500).body(response);
@@ -39,8 +38,8 @@ public class GlobalExceptionHandler {
     public ApiErrorResponse ExceptionHandler(MethodArgumentNotValidException e) {
 
         ApiErrorResponse errorResponse = ApiErrorResponse.builder()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .errorCode("BAD_REQUEST").message("잘못된 요청")
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(e.getMessage())
                 .build();
         for (FieldError fieldError : e.getFieldErrors()) {
             errorResponse.addValidation(fieldError.getField(), fieldError.getDefaultMessage());
@@ -54,7 +53,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> customException(CustomException e){
         int statusCode = e.getError().getStatusCode();
         ApiErrorResponse response = ApiErrorResponse.builder()
-                .statusCode(statusCode)
+                .status(statusCode)
                 .errorCode(e.getError().getErrorCode())
                 .message(e.getError().getMessage())
                 .build();
