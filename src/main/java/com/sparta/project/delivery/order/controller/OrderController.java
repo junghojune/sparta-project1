@@ -34,7 +34,7 @@ public class OrderController {
     ) {
         User user = User.builder()
                 .userId(1L)
-                .name("테스트")
+                .username("테스트")
                 .email("test@gmail.com")
                 .password("1234")
                 .role(UserRoleEnum.CUSTOMER)
@@ -66,7 +66,7 @@ public class OrderController {
         // TODO : 로그인 기능 완료시 수정
         User user = User.builder()
                 .userId(1L)
-                .name("테스트")
+                .username("테스트")
                 .email("test@gmail.com")
                 .password("1234")
                 .role(UserRoleEnum.CUSTOMER)

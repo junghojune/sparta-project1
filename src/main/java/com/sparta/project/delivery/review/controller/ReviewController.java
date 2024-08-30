@@ -24,7 +24,7 @@ public class ReviewController {
     public String addReview(@RequestBody ReviewRequest request) {
         User user = User.builder()
                 .userId(1L)
-                .name("테스트")
+                .username("테스트")
                 .email("test@gmail.com")
                 .password("1234")
                 .role(UserRoleEnum.CUSTOMER)
@@ -57,7 +57,7 @@ public class ReviewController {
     ) {
         User user = User.builder()
                 .userId(1L)
-                .name("테스트")
+                .username("테스트")
                 .email("test@gmail.com")
                 .password("1234")
                 .role(UserRoleEnum.CUSTOMER)

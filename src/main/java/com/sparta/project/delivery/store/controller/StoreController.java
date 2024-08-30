@@ -30,7 +30,7 @@ public class StoreController {
     @Operation(summary = "음식적 생성 API", description = "새 Store 를 생성 및 저장합니다.")
     public String create(@RequestBody CreateStore request) {
         // TODO : security 작성 후 수정
-        User user = User.builder().userId(1L).email("owner@mail.com").name("temporaryOwner")
+        User user = User.builder().userId(1L).email("owner@mail.com").username("temporaryOwner")
                 .role(UserRoleEnum.OWNER).password("12345").build();
         return storeService.createStore(request.toDto(), user);
     };
@@ -59,7 +59,7 @@ public class StoreController {
     @Operation(summary = "음식적 수정 API", description = "Store 내용을 수정합니다.(이름, 주소)")
     public String update(@PathVariable String storeId, @RequestBody UpdateStore request){
         // TODO : security 작성 후 수정
-        User user = User.builder().userId(1L).email("owner@mail.com").name("temporaryOwner")
+        User user = User.builder().userId(1L).email("owner@mail.com").username("temporaryOwner")
                 .role(UserRoleEnum.OWNER).password("12345").build();
         return storeService.updateStore(storeId, request.toDto(), user);
 
