@@ -11,11 +11,10 @@ import java.util.Map;
 @Getter
 public class ApiErrorResponse {
 
-    private int statusCode;
+    private int status;
     private String errorCode;
     private String message;
     private Map<String, String> validation;
-    private LocalDateTime localDateTime;
 
     public void addValidation(String field, String errorMessage) {
         if (validation == null) {
