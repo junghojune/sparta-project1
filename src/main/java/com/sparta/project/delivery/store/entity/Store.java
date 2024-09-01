@@ -39,6 +39,11 @@ public class Store extends BaseEntity {
     private User user;
 
     @Setter
+    @Lob
+    @Column
+    private String description;
+
+    @Setter
     @ManyToOne
     @JoinColumn(name = "region_id")
     private Region region;
