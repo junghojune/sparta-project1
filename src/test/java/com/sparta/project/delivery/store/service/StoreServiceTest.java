@@ -5,6 +5,8 @@ import com.sparta.project.delivery.category.entity.Category;
 import com.sparta.project.delivery.category.repository.CategoryRepository;
 import com.sparta.project.delivery.common.type.City;
 import com.sparta.project.delivery.common.type.UserRoleEnum;
+import com.sparta.project.delivery.menu.dto.MenuDto;
+import com.sparta.project.delivery.menu.entity.Menu;
 import com.sparta.project.delivery.region.entity.Region;
 import com.sparta.project.delivery.region.repository.RegionRepository;
 import com.sparta.project.delivery.store.constant.StoreSearchType;
@@ -26,6 +28,7 @@ import org.springframework.data.domain.Pageable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -56,6 +59,7 @@ public class StoreServiceTest {
     private User user;
     private Region region;
     private Category category;
+    private Menu menu;
 
     @BeforeEach
     void setUp() {
@@ -65,6 +69,8 @@ public class StoreServiceTest {
         region = Region.builder().regionId("regionId-123").city(City.SEOUL).siGun("Gangnam").gu("Gangnam").village("Yeoksam").build();
         category = Category.builder().categoryId("categoryId-123").name("Food").build();
         store = Store.builder().storeId("storeId-123").user(user).region(region).category(category).name("Test Store").address("123 Test St").description("정말 맛있는 가게입니다.").build();
+        menu = Menu.builder().store(store).menuId("menuId-123").name("짬뽕").price(12000L).description("맛없없 짬뽕").build();
+        store.getMenus().add(menu);
         storeDto = StoreDto.builder()
                 .storeId(store.getStoreId())
                 .userEmail(user.getEmail())
@@ -79,6 +85,7 @@ public class StoreServiceTest {
                 .name(store.getName())
                 .address(store.getAddress())
                 .description(store.getDescription())
+                .menus(Set.of(MenuDto.from(menu)))
                 .isPublic(true)
                 .isDeleted(false)
                 .createdAt(LocalDateTime.now())

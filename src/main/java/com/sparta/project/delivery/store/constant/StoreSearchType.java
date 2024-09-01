@@ -5,7 +5,9 @@ import lombok.Getter;
 @Getter
 public enum StoreSearchType {
     NAME("이름"),
-    Description("설명");
+    DESCRIPTION("설명"),
+    MENU("메뉴이름");
+
 
     private final String description;
 

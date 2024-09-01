@@ -2,12 +2,15 @@ package com.sparta.project.delivery.store.dto;
 
 import com.sparta.project.delivery.category.entity.Category;
 import com.sparta.project.delivery.common.type.City;
+import com.sparta.project.delivery.menu.dto.MenuDto;
 import com.sparta.project.delivery.region.entity.Region;
 import com.sparta.project.delivery.store.entity.Store;
 import com.sparta.project.delivery.user.User;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Builder
 public record StoreDto(
@@ -26,6 +29,7 @@ public record StoreDto(
         String description,
         Float averageRating,
         Integer reviewCount,
+        Set<MenuDto> menus,
         Boolean isPublic,
         Boolean isDeleted,
         LocalDateTime createdAt,
@@ -64,6 +68,10 @@ public record StoreDto(
                 .description(entity.getDescription())
                 .averageRating(entity.getAverageRating())
                 .reviewCount(entity.getReviewCount())
+                .menus(entity.getMenus().stream()
+                        .map(MenuDto::from)
+                        .collect(Collectors.toUnmodifiableSet())
+                )
                 .isPublic(entity.getIsPublic())
                 .isDeleted(entity.getIsDeleted())
                 .createdAt(entity.getCreatedAt())

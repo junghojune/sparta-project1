@@ -1,11 +1,13 @@
 package com.sparta.project.delivery.store.dto.response;
 
+import com.sparta.project.delivery.menu.dto.response.MenuResponse;
 import com.sparta.project.delivery.region.dto.RegionDto;
 import com.sparta.project.delivery.region.dto.RegionResponse;
 import com.sparta.project.delivery.store.dto.StoreDto;
 import lombok.Builder;
 
-import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Builder
 public record StoreResponse(
@@ -16,14 +18,9 @@ public record StoreResponse(
         String name,
         String address,
         String description,
+        Set<MenuResponse> menus,
         Boolean isPublic,
-        Boolean isDeleted,
-        LocalDateTime createdAt,
-        String createdBy,
-        LocalDateTime updatedAt,
-        String updatedBy,
-        LocalDateTime deletedAt,
-        String deletedBy
+        Boolean isDeleted
 ) {
 
 
@@ -38,14 +35,12 @@ public record StoreResponse(
                 .name(dto.name())
                 .address(dto.address())
                 .description(dto.description())
+                .menus(dto.menus().stream()
+                        .map(MenuResponse::from)
+                        .collect(Collectors.toUnmodifiableSet())
+                )
                 .isPublic(dto.isPublic())
                 .isDeleted(dto.isDeleted())
-                .createdAt(dto.createdAt())
-                .createdBy(dto.createdBy())
-                .updatedAt(dto.updatedAt())
-                .updatedBy(dto.updatedBy())
-                .deletedAt(dto.deletedAt())
-                .deletedBy(dto.deletedBy())
                 .build();
     }
 
