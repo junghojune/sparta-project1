@@ -15,6 +15,7 @@ public record StoreResponse(
         String category,
         String name,
         String address,
+        String description,
         Boolean isPublic,
         Boolean isDeleted,
         LocalDateTime createdAt,
@@ -36,6 +37,7 @@ public record StoreResponse(
                 .category(dto.categoryName())
                 .name(dto.name())
                 .address(dto.address())
+                .description(dto.description())
                 .isPublic(dto.isPublic())
                 .isDeleted(dto.isDeleted())
                 .createdAt(dto.createdAt())

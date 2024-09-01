@@ -61,9 +61,9 @@ public class StoreService {
 
     @Transactional(readOnly = true)
     public Page<StoreDto> getAllStores(String regionId, String categoryId,
-                                       StoreSearchType searchType, String searchValue, Pageable pageable) {
+                                       StoreSearchType searchType, String searchValue,UserDetailsImpl userDetails, Pageable pageable) {
 
-        return storeRepository.searchStore(regionId, categoryId,searchType, searchValue, pageable).map(StoreDto::from);
+        return storeRepository.searchStore(regionId, categoryId,searchType, searchValue, userDetails, pageable).map(StoreDto::from);
     }
 
     public StoreDto updateStore(String storeId, StoreDto dto, UserDetailsImpl userDetails) {
@@ -77,6 +77,7 @@ public class StoreService {
         //업데이트 내용 수정
         // dto.address() -> address 는 region 에 변화가 있을 때 수정?
         store.setName(dto.name());
+        store.setDescription(dto.description());
         return StoreDto.from(storeRepository.save(store));
     }
 

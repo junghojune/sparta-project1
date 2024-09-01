@@ -23,6 +23,7 @@ public record StoreDto(
         String categoryName,
         String name,
         String address,
+        String description,
         Float averageRating,
         Integer reviewCount,
         Boolean isPublic,
@@ -42,6 +43,7 @@ public record StoreDto(
                 .category(category)
                 .name(name)
                 .address(address)
+                .description(description)
                 .build();
     }
 
@@ -59,6 +61,7 @@ public record StoreDto(
                 .categoryName(entity.getCategory().getName())
                 .name(entity.getName())
                 .address(entity.getAddress())
+                .description(entity.getDescription())
                 .averageRating(entity.getAverageRating())
                 .reviewCount(entity.getReviewCount())
                 .isPublic(entity.getIsPublic())
