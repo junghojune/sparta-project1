@@ -39,12 +39,12 @@ public class Store extends BaseEntity {
     private User user;
 
     @Setter
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "region_id")
     private Region region;
 
     @Setter
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
