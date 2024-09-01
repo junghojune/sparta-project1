@@ -6,7 +6,6 @@ import com.sparta.project.delivery.category.entity.Category;
 import com.sparta.project.delivery.category.repository.CategoryRepository;
 import com.sparta.project.delivery.common.exception.CustomException;
 import com.sparta.project.delivery.common.type.UserRoleEnum;
-import com.sparta.project.delivery.notice.dto.NoticeDto;
 import com.sparta.project.delivery.region.entity.Region;
 import com.sparta.project.delivery.region.repository.RegionRepository;
 import com.sparta.project.delivery.store.constant.StoreSearchType;
@@ -42,11 +41,8 @@ public class StoreService {
                 () -> new CustomException(REGION_NOT_FOUND));
         Category category = CategoryRepository.findById(storeDto.categoryId()).orElseThrow(
                 () -> new CustomException(CATEGORY_NOT_FOUND));
-        User user = userRepository.findByEmail(userDetails.getEmail()).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
-        // 권한 체크
-        if (user.getRole() == UserRoleEnum.CUSTOMER) {
-            throw new CustomException(INVALID_ROLE);
-        }
+        // 유저 조회 및 권한 검증
+        User user = checkUserRole(userDetails);
         //Store 저장
         storeRepository.save(storeDto.toEntity(user, region, category));
     }
@@ -61,30 +57,38 @@ public class StoreService {
 
     @Transactional(readOnly = true)
     public Page<StoreDto> getAllStores(String regionId, String categoryId,
-                                       StoreSearchType searchType, String searchValue, Pageable pageable) {
+                                       StoreSearchType searchType, String searchValue,UserDetailsImpl userDetails, Pageable pageable) {
 
-        return storeRepository.searchStore(regionId, categoryId,searchType, searchValue, pageable).map(StoreDto::from);
+        return storeRepository.searchStore(regionId, categoryId,searchType, searchValue, userDetails, pageable).map(StoreDto::from);
     }
 
     public StoreDto updateStore(String storeId, StoreDto dto, UserDetailsImpl userDetails) {
-        // 유저 권한 체크
-        User user = userRepository.findByEmail(userDetails.getEmail()).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
-        // 식당 주인과 매니저만 변경 가능
-        if (user.getRole().equals(UserRoleEnum.CUSTOMER) || user.getRole().equals(UserRoleEnum.MASTER)) {
-            throw new CustomException(INVALID_ROLE);
-        }
+        //권한 검증
+        checkUserRole(userDetails);
+
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new CustomException(STORE_NOT_FOUND));
         //업데이트 내용 수정
         // dto.address() -> address 는 region 에 변화가 있을 때 수정?
         store.setName(dto.name());
+        store.setDescription(dto.description());
         return StoreDto.from(storeRepository.save(store));
     }
 
     @Transactional
     // Soft delete -> isDeleted, deletedAt, deletedBy 수정
     public void deleteStore(String storeId, UserDetailsImpl userDetails) {
+        checkUserRole(userDetails);
+
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new CustomException(STORE_NOT_FOUND));
         store.deleteStore(LocalDateTime.now(), userDetails.getEmail());
+    }
+
+    private User checkUserRole(UserDetailsImpl userDetails) {
+        User user = userRepository.findByEmail(userDetails.getEmail()).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+        if (!user.getRole().equals(UserRoleEnum.MASTER) && !user.getRole().equals(UserRoleEnum.OWNER)){
+            throw new CustomException(INVALID_ROLE);
+        }
+        return user;
     }
 
 }

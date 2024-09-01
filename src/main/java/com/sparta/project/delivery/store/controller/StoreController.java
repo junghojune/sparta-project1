@@ -59,10 +59,11 @@ public class StoreController {
             @RequestParam(required = false, name = "searchValue") String searchValue,
             @ParameterObject @PageableDefault(
                     size = 10, sort = {"createdAt", "updatedAt"}, direction = Sort.Direction.DESC
-            ) Pageable pageable
+            ) Pageable pageable,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         return CommonResponse.success(
-                storeService.getAllStores(regionId, categoryId,searchType,searchValue, pageable).map(StoreResponse::from)
+                storeService.getAllStores(regionId, categoryId,searchType,searchValue,userDetails, pageable).map(StoreResponse::from)
         );
     }
 

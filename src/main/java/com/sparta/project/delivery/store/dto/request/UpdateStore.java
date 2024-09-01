@@ -14,6 +14,9 @@ public record UpdateStore(
         @Size(max = 100, message = "주소는 100자 이하여야 합니다.")
         String address,
 
+        @Size(max = 3, message = "가게 설명은 3글자 이상이어야 합니다.")
+        String description,
+
         @NotNull(message = "공개 상태는 필수 입력 값입니다.")
         Boolean isPublic
 ) {
@@ -22,6 +25,7 @@ public record UpdateStore(
         return StoreDto.builder()
                 .name(name)
                 .address(address)
+                .description(description)
                 .build();
     }
 }

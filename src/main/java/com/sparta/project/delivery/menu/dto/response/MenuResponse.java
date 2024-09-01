@@ -3,7 +3,6 @@ package com.sparta.project.delivery.menu.dto.response;
 import com.sparta.project.delivery.menu.dto.MenuDto;
 import lombok.Builder;
 
-import java.time.LocalDateTime;
 
 @Builder
 public record MenuResponse(
@@ -13,13 +12,7 @@ public record MenuResponse(
         Long price,
         String description,
         Boolean isPublic,
-        Boolean isDeleted,
-        LocalDateTime createdAt,
-        String createdBy,
-        LocalDateTime updatedAt,
-        String updatedBy,
-        LocalDateTime deletedAt,
-        String deletedBy
+        Boolean isDeleted
 ) {
 
     public static MenuResponse from(MenuDto dto){
@@ -31,12 +24,6 @@ public record MenuResponse(
                 .description(dto.description())
                 .isPublic(dto.isPublic())
                 .isDeleted(dto.isDeleted())
-                .createdAt(dto.createdAt())
-                .createdBy(dto.createdBy())
-                .updatedAt(dto.updatedAt())
-                .updatedBy(dto.updatedBy())
-                .deletedAt(dto.deletedAt())
-                .deletedBy(dto.deletedBy())
                 .build();
     }
 }
