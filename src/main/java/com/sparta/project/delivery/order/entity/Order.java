@@ -1,6 +1,6 @@
 package com.sparta.project.delivery.order.entity;
 
-import com.sparta.project.delivery.address.Address;
+import com.sparta.project.delivery.address.entity.Address;
 import com.sparta.project.delivery.common.BaseEntity;
 import com.sparta.project.delivery.common.type.DeliveryType;
 import com.sparta.project.delivery.common.type.OrderStatus;

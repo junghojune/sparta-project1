@@ -38,7 +38,6 @@ public class ReviewController {
     public CommonResponse<String> addReview(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestBody ReviewRequest request) {
-
         reviewService.addReview(request.toDto(UserDto.from(userDetails.getUser())));
 
         return CommonResponse.success("리뷰 작성이 완료되었습니다.");

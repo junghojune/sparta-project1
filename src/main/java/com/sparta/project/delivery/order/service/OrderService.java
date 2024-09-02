@@ -1,7 +1,7 @@
 package com.sparta.project.delivery.order.service;
 
-import com.sparta.project.delivery.address.Address;
-import com.sparta.project.delivery.address.AddressRepository;
+import com.sparta.project.delivery.address.entity.Address;
+import com.sparta.project.delivery.address.repository.AddressRepository;
 import com.sparta.project.delivery.common.exception.CustomException;
 import com.sparta.project.delivery.common.type.OrderStatus;
 import com.sparta.project.delivery.menu.entity.Menu;

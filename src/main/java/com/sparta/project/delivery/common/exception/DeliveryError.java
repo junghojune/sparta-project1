@@ -48,7 +48,8 @@ public enum DeliveryError {
     ORDER_PRICE_NOT_SAME(935, "ORDER_005", "주문 가격이 실제 가격과 다릅니다."),
 
     // Address ( 배송지 관련 에러)
-    ADDRESS_NOT_FOUND(404, "ADDRESS_001", "베송지를 찾을 수 없습니다."),
+    ADDRESS_NOT_FOUND(404, "ADDRESS_001", "배송지를 찾을 수 없습니다."),
+    ADDRESS_ALREADY_EXISTS(406, "ADDRESS_002", "이미 등록된 배송지입니다."),
 
     // Review (리뷰 관련 에러)
     REVIEW_NOT_FOUND(961, "REVIEW_001", "리뷰를 찾을 수 없습니다."),
@@ -68,8 +69,10 @@ public enum DeliveryError {
     // User (사용자 관련 에러)
     USER_NOT_FOUND(404, "USER_001", "사용자를 찾을 수 없습니다."),
     USER_CREATION_FAILED(400, "USER_002", "사용자 생성에 실패하였습니다."),
-    USER_UPDATE_FAILED(400, "USER_003", "사용자 정보 업데이트에 실패하였습니다."),
-    USER_DELETE_FAILED(400, "USER_004", "사용자 삭제에 실패하였습니다."),
+    USER_WRONG_PASSWORD(400, "USER_003", "비밀번호가 틀렸습니다."),
+    USER_DELETED(400, "USER_004", "탈퇴한 사용자입니다."),
+    EMAIL_ALREADY_EXISTS(411, "USER_005", "이미 존재하는 이메일입니다"),
+    USERNAME_ALREADY_EXISTS(411, "USER_006", "이미 존재하는 사용자 이름입니다."),
 
     // AI 도메인 관련 에러
     AI_QUESTION_INVALID(900, "AI_001", "질문은 1자 이상 50자 이하로 작성해야 합니다."),
