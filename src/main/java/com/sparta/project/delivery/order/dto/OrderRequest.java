@@ -1,7 +1,7 @@
 package com.sparta.project.delivery.order.dto;
 
 import com.sparta.project.delivery.common.type.DeliveryType;
-import com.sparta.project.delivery.user.User;
+import com.sparta.project.delivery.user.dto.UserDto;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public record OrderRequest(
         Long price,
         List<OrderMenuRequest> menus
 ) {
-    public OrderDto toDto(User user) {
-        return OrderDto.of(user, request, type, price, storeId, addressId);
+    public OrderDto toDto(UserDto userDto) {
+        return OrderDto.of(userDto, request, type, price, storeId, addressId);
     }
 }

@@ -4,12 +4,14 @@ package com.sparta.project.delivery.store.entity;
 
 import com.sparta.project.delivery.category.entity.Category;
 import com.sparta.project.delivery.common.BaseEntity;
+import com.sparta.project.delivery.menu.entity.Menu;
 import com.sparta.project.delivery.region.entity.Region;
 import com.sparta.project.delivery.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Objects;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -29,7 +31,7 @@ public class Store extends BaseEntity {
     private String name;
 
     @Setter
-    @Column(length = 100)
+    @Column(length = 200)
     private String address;
 
     @Setter
@@ -38,12 +40,17 @@ public class Store extends BaseEntity {
     private User user;
 
     @Setter
-    @OneToOne
+    @Lob
+    @Column
+    private String description;
+
+    @Setter
+    @ManyToOne
     @JoinColumn(name = "region_id")
     private Region region;
 
     @Setter
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
@@ -57,7 +64,16 @@ public class Store extends BaseEntity {
     @Builder.Default
     private int reviewCount = 0;
 
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private Set<Menu> menus = new LinkedHashSet<>();
 
+    public void deleteStore(LocalDateTime time, String userEmail){
+        setIsPublic(false);
+        setIsDeleted(true);
+        setDeletedAt(time);
+        setDeletedBy(userEmail);
+    }
 
     @Override
     public boolean equals(Object o) {

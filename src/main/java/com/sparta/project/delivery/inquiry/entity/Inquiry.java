@@ -6,6 +6,8 @@ import com.sparta.project.delivery.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
@@ -44,5 +46,11 @@ public class Inquiry extends BaseEntity {
     private String response;
 
 
+    public void deleteInquiry(LocalDateTime time, String deletedBy){
+        setIsPublic(false);
+        setIsDeleted(true);
+        setDeletedAt(time);
+        setDeletedBy(deletedBy);
+    }
 
 }

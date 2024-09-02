@@ -6,6 +6,7 @@ import com.sparta.project.delivery.common.type.OrderStatus;
 import com.sparta.project.delivery.order.entity.Order;
 import com.sparta.project.delivery.store.entity.Store;
 import com.sparta.project.delivery.user.User;
+import com.sparta.project.delivery.user.dto.UserDto;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +18,7 @@ public record OrderDto(
         OrderStatus status,
         DeliveryType type,
         Long price,
-        User user, // TODO : USERDTO로 변경
+        UserDto userDto,
         String storeId,
         String storeName,
         String addressId,
@@ -31,8 +32,8 @@ public record OrderDto(
         LocalDateTime deletedAt,
         String deletedBy
 ) {
-    public static OrderDto of(User user, String request, DeliveryType type, Long price, String storeId, String addressId) {
-        return new OrderDto(null, request, ORDER_IN_PROGRESS, type, price, user, storeId, null, addressId, null,
+    public static OrderDto of(UserDto userDto, String request, DeliveryType type, Long price, String storeId, String addressId) {
+        return new OrderDto(null, request, ORDER_IN_PROGRESS, type, price, userDto, storeId, null, addressId, null,
                 null, null, null, null, null, null, null, null);
     }
 
@@ -43,7 +44,7 @@ public record OrderDto(
                 entity.getStatus(),
                 entity.getType(),
                 entity.getPrice(),
-                entity.getUser(),
+                UserDto.from(entity.getUser()),
                 entity.getStore().getStoreId(),
                 entity.getStore().getName(),
                 entity.getAddress().getAddressId(),

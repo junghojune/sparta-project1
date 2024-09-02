@@ -4,6 +4,8 @@ import com.sparta.project.delivery.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
@@ -26,4 +28,11 @@ public class Notice extends BaseEntity {
     @Column(nullable = false)
     private String content;
 
+
+    public void deleteNotice(LocalDateTime time, String deletedBy) {
+        setIsDeleted(true);
+        setIsPublic(false);
+        setDeletedAt(time);
+        setDeletedBy(deletedBy);
+    }
 }

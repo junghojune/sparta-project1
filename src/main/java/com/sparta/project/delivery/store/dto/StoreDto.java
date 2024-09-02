@@ -2,18 +2,22 @@ package com.sparta.project.delivery.store.dto;
 
 import com.sparta.project.delivery.category.entity.Category;
 import com.sparta.project.delivery.common.type.City;
+import com.sparta.project.delivery.menu.dto.MenuDto;
 import com.sparta.project.delivery.region.entity.Region;
 import com.sparta.project.delivery.store.entity.Store;
 import com.sparta.project.delivery.user.User;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Builder
 public record StoreDto(
         String storeId,
-        User user, // TODO : UserDto 개발 후 변경
-        String regionId, //TODO : RegionDto 개발 후 변경
+        String userEmail,
+        String userName,
+        String regionId,
         City city,
         String siGun,
         String gu,
@@ -22,8 +26,10 @@ public record StoreDto(
         String categoryName,
         String name,
         String address,
+        String description,
         Float averageRating,
         Integer reviewCount,
+        Set<MenuDto> menus,
         Boolean isPublic,
         Boolean isDeleted,
         LocalDateTime createdAt,
@@ -41,13 +47,15 @@ public record StoreDto(
                 .category(category)
                 .name(name)
                 .address(address)
+                .description(description)
                 .build();
     }
 
     public static StoreDto from(Store entity){
         return StoreDto.builder()
                 .storeId(entity.getStoreId())
-                .user(entity.getUser())
+                .userEmail(entity.getUser().getEmail())
+                .userName(entity.getUser().getUsername())
                 .regionId(entity.getRegion().getRegionId())
                 .city(entity.getRegion().getCity())
                 .siGun(entity.getRegion().getSiGun())
@@ -57,8 +65,13 @@ public record StoreDto(
                 .categoryName(entity.getCategory().getName())
                 .name(entity.getName())
                 .address(entity.getAddress())
+                .description(entity.getDescription())
                 .averageRating(entity.getAverageRating())
                 .reviewCount(entity.getReviewCount())
+                .menus(entity.getMenus().stream()
+                        .map(MenuDto::from)
+                        .collect(Collectors.toUnmodifiableSet())
+                )
                 .isPublic(entity.getIsPublic())
                 .isDeleted(entity.getIsDeleted())
                 .createdAt(entity.getCreatedAt())
