@@ -2,11 +2,13 @@ package com.sparta.project.delivery.user.service;
 
 import com.sparta.project.delivery.address.dto.AddressDto;
 import com.sparta.project.delivery.auth.JwtUtil;
+import com.sparta.project.delivery.auth.UserDetailsImpl;
 import com.sparta.project.delivery.common.exception.CustomException;
 import com.sparta.project.delivery.common.response.CommonResponse;
 import com.sparta.project.delivery.common.type.UserRoleEnum;
 import com.sparta.project.delivery.user.User;
 import com.sparta.project.delivery.user.dto.UserDto;
+import com.sparta.project.delivery.user.dto.response.UserRoleResponse;
 import com.sparta.project.delivery.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -143,7 +145,7 @@ public class UserService {
     }
 
     public CommonResponse<UserDto> getUser(User user) {
-        return null;
+        return CommonResponse.success(UserDto.from(user));
     }
 
     private String extractTokenFromHeader(HttpServletRequest request) {
@@ -169,5 +171,13 @@ public class UserService {
                 throw new CustomException(USERNAME_ALREADY_EXISTS);
             }
         }
+    }
+
+    // UserRole, userId Response
+    private UserRoleResponse roleResponse (UserDetailsImpl userDetails) {
+        return  UserRoleResponse.builder()
+                .userId(userDetails.getUser().getUserId())
+                .role(userDetails.getUser().getRole())
+                .build();
     }
 }
