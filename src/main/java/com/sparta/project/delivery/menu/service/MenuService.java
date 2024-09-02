@@ -77,6 +77,7 @@ public class MenuService {
         menu.setName(dto.name());
         menu.setDescription(dto.description());
         menu.setPrice(dto.price());
+        menu.setIsPublic(dto.isPublic());
 
         return MenuDto.from(menuRepository.save(menu));
     }

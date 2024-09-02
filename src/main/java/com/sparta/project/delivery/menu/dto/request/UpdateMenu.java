@@ -18,7 +18,10 @@ public record UpdateMenu(
         Long price,
 
         @Size(max = 500, message = "설명은 500자를 초과할 수 없습니다.")
-        String description
+        String description,
+
+        @NotNull(message = "숨김 여부는 필수 입력 값입니다.")
+        Boolean isPublic
 ) {
 
     public MenuDto toDto() {
@@ -26,6 +29,7 @@ public record UpdateMenu(
                 .name(name)
                 .price(price)
                 .description(description)
+                .isPublic(isPublic)
                 .build();
     }
 }
