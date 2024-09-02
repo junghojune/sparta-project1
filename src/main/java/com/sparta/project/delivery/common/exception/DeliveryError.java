@@ -77,8 +77,13 @@ public enum DeliveryError {
     AI_RESPONSE_NOT_FOUND(404, "AI_003", "AI 응답을 찾을 수 없습니다."),
     AI_SERVICE_UNAVAILABLE(503, "AI_004", "AI 서비스가 현재 사용 불가능합니다."),
     AI_MODEL_NOT_CONFIGURED(500, "AI_005", "AI 모델이 설정되지 않았습니다."),
-    AI_REQUEST_TIMEOUT(504, "AI_006", "AI 요청이 시간 초과되었습니다.");
+    AI_REQUEST_TIMEOUT(504, "AI_006", "AI 요청이 시간 초과되었습니다."),
 
+    // payment 도메인 관련 에러
+    PAYMENT_NOT_FOUND(991, "PAYMENT_001", "결제 내역을 찾을 수 없습니다.")
+
+
+    ;
     private final int statusCode; // HTTP 상태 코드
     private final String errorCode; // 내부 시스템의 에러 코드
     private final String message; // 에러 메시지
