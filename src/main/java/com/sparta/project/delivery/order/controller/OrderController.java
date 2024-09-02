@@ -114,7 +114,6 @@ public class OrderController {
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestBody OrderRequest request
     ) {
-
         orderService.createOrder(
                 request.toDto(UserDto.from(userDetails.getUser())),
                 request.menus().stream().map(OrderMenuRequest::toDto).toList()
