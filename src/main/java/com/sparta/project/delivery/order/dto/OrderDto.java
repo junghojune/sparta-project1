@@ -1,6 +1,6 @@
 package com.sparta.project.delivery.order.dto;
 
-import com.sparta.project.delivery.address.Address;
+import com.sparta.project.delivery.address.entity.Address;
 import com.sparta.project.delivery.common.type.DeliveryType;
 import com.sparta.project.delivery.common.type.OrderStatus;
 import com.sparta.project.delivery.order.entity.Order;
@@ -64,4 +64,5 @@ public record OrderDto(
                 user, store, address, request, status, type, price
         );
     }
+
 }

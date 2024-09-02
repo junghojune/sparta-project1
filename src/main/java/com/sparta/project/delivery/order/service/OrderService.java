@@ -1,7 +1,7 @@
 package com.sparta.project.delivery.order.service;
 
-import com.sparta.project.delivery.address.Address;
-import com.sparta.project.delivery.address.AddressRepository;
+import com.sparta.project.delivery.address.entity.Address;
+import com.sparta.project.delivery.address.repository.AddressRepository;
 import com.sparta.project.delivery.common.type.OrderStatus;
 import com.sparta.project.delivery.menu.entity.Menu;
 import com.sparta.project.delivery.menu.repository.MenuRepository;
@@ -15,7 +15,7 @@ import com.sparta.project.delivery.order.repository.OrderRepository;
 import com.sparta.project.delivery.store.entity.Store;
 import com.sparta.project.delivery.store.repository.StoreRepository;
 import com.sparta.project.delivery.user.User;
-import com.sparta.project.delivery.user.UserRepository;
+import com.sparta.project.delivery.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
