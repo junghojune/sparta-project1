@@ -5,6 +5,9 @@ import com.sparta.project.delivery.address.dto.request.UpdateAddress;
 import com.sparta.project.delivery.address.dto.response.AddressResponse;
 import com.sparta.project.delivery.address.service.AddressService;
 import com.sparta.project.delivery.auth.UserDetailsImpl;
+import com.sparta.project.delivery.common.response.CommonResponse;
+import com.sparta.project.delivery.store.dto.response.StoreResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
@@ -22,24 +25,26 @@ public class AddressController {
     private final AddressService addressService;
 
     @PostMapping
-    public String create(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                         @RequestBody CreateAddress request){
+    @Operation(summary = "주소지 등록 API", description = "Address를 생성, 등록합니다.")
+    public CommonResponse<Void> create(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                 @RequestBody CreateAddress request){
         return addressService.create(userDetails.getUser(), request.toDto());
     }
 
-    // 로그인 한 사용자의 모든 주소 확인
-    @GetMapping
-    public Page<AddressResponse> getAll(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                        @ParameterObject @PageableDefault(
-                    size = 10, sort = {"createdAt", "updatedAt"}, direction = Sort.Direction.DESC
-            ) Pageable pageable
-    ) {
-        return addressService.getAll(userDetails.getUser(),pageable).map(AddressResponse::from);
-    }
-
+    // 로그인 한 사용자의 모든 주소 확인 - 에러 발생
+//    @GetMapping
+    // @Operation(summary = "주소지 조회 API", description = "로그인 한 사용자의 Address를 조회합니다.")
+//    public Page<AddressResponse> getAll(@AuthenticationPrincipal UserDetailsImpl userDetails,
+//                                        @ParameterObject @PageableDefault(
+//                    size = 10, sort = {"createdAt", "updatedAt"}, direction = Sort.Direction.DESC
+//            ) Pageable pageable
+//    ) {
+//        return addressService.getAll(userDetails.getUser(),pageable).map(AddressResponse::from);
+//    }
 
     @PutMapping("/{address_id}")
-    public AddressResponse update(@PathVariable String address_id,
+    @Operation(summary = "주소지 수정 API", description = "Address를 수정합니다.")
+    public CommonResponse<AddressResponse> update(@PathVariable String address_id,
                              @RequestBody UpdateAddress request,
                              @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
@@ -47,7 +52,8 @@ public class AddressController {
     }
 
     @DeleteMapping("/{address_id}")
-    public String delete(@PathVariable String address_id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    @Operation(summary = "주소지 삭제 API", description = "Address를 삭제 (isDeleted = true) 합니다.")
+    public CommonResponse<Void> delete(@PathVariable String address_id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         return addressService.delete(address_id, userDetails.getUser());
     }

@@ -30,7 +30,7 @@ public class StoreController {
     private final StoreService storeService;
 
     @PostMapping
-    @Operation(summary = "음식적 생성 API", description = "새 Store 를 생성 및 저장합니다.")
+    @Operation(summary = "음식점 생성 API", description = "새 Store 를 생성 및 저장합니다.")
     public CommonResponse<Void> create(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestBody CreateStore request) {
