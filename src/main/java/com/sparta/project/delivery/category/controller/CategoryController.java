@@ -54,7 +54,7 @@ public class CategoryController {
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestBody CategoryRequest request
     ) {
-        categoryService.addCategory(UserDto.from(userDetails.getUser()), request.toDto());
+        categoryService.addCategory(userDetails, request.toDto());
 
         return "category  create successfully";
     }
@@ -72,7 +72,7 @@ public class CategoryController {
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @PathVariable("categoryId") String categoryId
     ) {
-        categoryService.deleteCategory(UserDto.from(userDetails.getUser()), categoryId);
+        categoryService.deleteCategory(userDetails, categoryId);
 
         return "category delete successfully";
     }
@@ -93,6 +93,6 @@ public class CategoryController {
             @PathVariable("categoryId") String categoryId,
             @RequestBody CategoryRequest request
     ) {
-        categoryService.updateCategory(UserDto.from(userDetails.getUser()), categoryId, request.toDto());
+        categoryService.updateCategory(userDetails, categoryId, request.toDto());
     }
 }

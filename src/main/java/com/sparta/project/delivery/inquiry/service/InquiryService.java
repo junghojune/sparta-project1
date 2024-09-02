@@ -11,7 +11,9 @@ import com.sparta.project.delivery.inquiry.dto.InquirySetReplyRequest;
 import com.sparta.project.delivery.inquiry.entity.Inquiry;
 import com.sparta.project.delivery.inquiry.repository.InquiryRepository;
 import com.sparta.project.delivery.user.User;
+import com.sparta.project.delivery.user.dto.response.UserRoleResponse;
 import com.sparta.project.delivery.user.repository.UserRepository;
+import com.sparta.project.delivery.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +29,7 @@ import static com.sparta.project.delivery.common.exception.DeliveryError.*;
 public class InquiryService {
     private final InquiryRepository inquiryRepository;
     private final UserRepository userRepository;
-
+    private final UserService userService;
 
     @Transactional(readOnly = true)
     public Page<InquiryDto> getAllInquiry(InquirySearchType searchType, String searchValue, UserDetailsImpl userDetails, Pageable pageable) {
@@ -99,9 +101,9 @@ public class InquiryService {
     }
 
     private void checkUserRole(UserDetailsImpl userDetails) {
-        User user = userRepository.findByEmail(userDetails.getEmail()).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
-        if (!user.getRole().equals(UserRoleEnum.MASTER) && !user.getRole().equals(UserRoleEnum.MANAGER)){
-            throw new CustomException(INVALID_ROLE);
+        UserRoleResponse res = userService.getUserRole(userDetails);
+        if (!res.role().equals(UserRoleEnum.MASTER) && !res.role().equals(UserRoleEnum.MANAGER)){
+            throw new CustomException(AUTH_INVALID_CREDENTIALS);
         }
     }
 }

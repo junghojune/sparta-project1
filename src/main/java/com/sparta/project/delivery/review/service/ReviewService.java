@@ -1,6 +1,8 @@
 package com.sparta.project.delivery.review.service;
 
+import com.sparta.project.delivery.auth.UserDetailsImpl;
 import com.sparta.project.delivery.common.exception.CustomException;
+import com.sparta.project.delivery.common.type.UserRoleEnum;
 import com.sparta.project.delivery.order.entity.Order;
 import com.sparta.project.delivery.order.repository.OrderRepository;
 import com.sparta.project.delivery.review.dto.ReviewDto;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.sparta.project.delivery.common.exception.DeliveryError.*;
+import static com.sparta.project.delivery.common.type.UserRoleEnum.*;
 
 @RequiredArgsConstructor
 @Service
@@ -81,6 +84,14 @@ public class ReviewService {
         reviewReportRepository.save(reviewReport);
 
         review.setReportFlag(true);
+    }
+
+    public Page<ReviewDto> getAllReviewsByUser(Long userId,Pageable pageable) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+
+        return reviewRepository.findAllByUserAndIsDeletedFalse(user, pageable).map(ReviewDto::from);
+
     }
 
     private void updateStoreRatingAndReviewCount(Store store, int newRating) {

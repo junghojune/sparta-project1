@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 public record InquiryResponse(
         String inquiryId,
         String title,
+        Long userId,
         String userEmail,
         String content,
         Boolean isPublic,
@@ -21,6 +22,7 @@ public record InquiryResponse(
         return InquiryResponse.builder()
                 .inquiryId(dto.inquiryId())
                 .title(dto.title())
+                .userId(dto.userId())
                 .userEmail(dto.userEmail())
                 .content(dto.content())
                 .isPublic(dto.isPublic())

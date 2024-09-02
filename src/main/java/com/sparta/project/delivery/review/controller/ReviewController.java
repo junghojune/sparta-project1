@@ -5,6 +5,7 @@ import com.sparta.project.delivery.common.response.CommonResponse;
 import com.sparta.project.delivery.review.dto.ReviewReportRequest;
 import com.sparta.project.delivery.review.dto.ReviewRequest;
 import com.sparta.project.delivery.review.dto.ReviewResponse;
+import com.sparta.project.delivery.review.dto.UserAllReviewResponse;
 import com.sparta.project.delivery.review.service.ReviewService;
 import com.sparta.project.delivery.user.dto.UserDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,6 +42,25 @@ public class ReviewController {
         reviewService.addReview(request.toDto(UserDto.from(userDetails.getUser())));
 
         return CommonResponse.success("리뷰 작성이 완료되었습니다.");
+    }
+
+    @GetMapping()
+    @Operation(summary = "유저의 모든 리뷰 조회", description = "유저의 모든 review 정보를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "404", description = "유저를 찾을 수 없습니다.", content = @Content),
+    })
+    public CommonResponse<Page<UserAllReviewResponse>> getReviewsByUser(
+            @RequestParam(value = "userId") Long userId,
+            @ParameterObject
+            @PageableDefault(
+                    size = 10, sort = {"createdAt"}, direction = Sort.Direction.DESC
+            ) Pageable pageable
+    ) {
+        return CommonResponse.success(
+                reviewService.getAllReviewsByUser(userId, pageable)
+                        .map(UserAllReviewResponse::from)
+        );
     }
 
     @GetMapping("/{storeId}")

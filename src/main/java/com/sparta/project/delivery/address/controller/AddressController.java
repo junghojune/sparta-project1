@@ -28,7 +28,7 @@ public class AddressController {
     @Operation(summary = "주소지 등록 API", description = "Address를 생성, 등록합니다.")
     public CommonResponse<Void> create(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                  @RequestBody CreateAddress request){
-        return addressService.create(userDetails.getUser(), request.toDto());
+        return addressService.create(userDetails, request.toDto());
     }
 
     // 로그인 한 사용자의 모든 주소 확인 - 에러 발생
@@ -39,7 +39,7 @@ public class AddressController {
                     size = 10, sort = {"createdAt", "updatedAt"}, direction = Sort.Direction.DESC
             ) Pageable pageable
     ) {
-        return addressService.getAll(userDetails.getUser(),pageable).map(AddressResponse::from);
+        return addressService.getAll(userDetails,pageable).map(AddressResponse::from);
     }
 
     @PutMapping("/{address_id}")
@@ -48,13 +48,13 @@ public class AddressController {
                              @RequestBody UpdateAddress request,
                              @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        return addressService.update(address_id, request.toDto() ,userDetails.getUser());
+        return addressService.update(address_id, request.toDto() ,userDetails);
     }
 
     @DeleteMapping("/{address_id}")
     @Operation(summary = "주소지 삭제 API", description = "Address를 삭제 (isDeleted = true) 합니다.")
     public CommonResponse<Void> delete(@PathVariable String address_id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        return addressService.delete(address_id, userDetails.getUser());
+        return addressService.delete(address_id, userDetails);
     }
 }

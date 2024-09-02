@@ -11,7 +11,9 @@ import com.sparta.project.delivery.notice.dto.NoticeRequest;
 import com.sparta.project.delivery.notice.entity.Notice;
 import com.sparta.project.delivery.notice.repository.NoticeRepository;
 import com.sparta.project.delivery.user.User;
+import com.sparta.project.delivery.user.dto.response.UserRoleResponse;
 import com.sparta.project.delivery.user.repository.UserRepository;
+import com.sparta.project.delivery.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +29,7 @@ import static com.sparta.project.delivery.common.exception.DeliveryError.*;
 public class NoticeService {
 
     private final NoticeRepository noticeRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     public void createNotice(NoticeDto dto, UserDetailsImpl userDetails) {
         checkUserRole(userDetails);
@@ -70,11 +72,13 @@ public class NoticeService {
         notice.deleteNotice(LocalDateTime.now(), userEmail);
     }
 
+
+
     private String checkUserRole(UserDetailsImpl userDetails) {
-        User user = userRepository.findByEmail(userDetails.getEmail()).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
-        if (!user.getRole().equals(UserRoleEnum.MASTER) && !user.getRole().equals(UserRoleEnum.MANAGER)){
-            throw new CustomException(INVALID_ROLE);
+        UserRoleResponse res = userService.getUserRole(userDetails);
+        if (!res.role().equals(UserRoleEnum.MASTER) && !res.role().equals(UserRoleEnum.MANAGER)){
+            throw new CustomException(AUTH_INVALID_CREDENTIALS);
         }
-        return user.getEmail();
+        return userDetails.getEmail();
     }
 }

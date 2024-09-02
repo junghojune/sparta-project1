@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -174,10 +175,14 @@ public class UserService {
     }
 
     // UserRole, userId Response
-    private UserRoleResponse roleResponse (UserDetailsImpl userDetails) {
+    @Cacheable(value = "userRoles", key = "#userDetails.user.userId")
+    public UserRoleResponse getUserRole(UserDetailsImpl userDetails) {
+        User user = userRepository.findById(userDetails.getUser().getUserId()).orElseThrow(
+                () -> new CustomException(USER_NOT_FOUND)
+        );
         return  UserRoleResponse.builder()
-                .userId(userDetails.getUser().getUserId())
-                .role(userDetails.getUser().getRole())
+                .userId(user.getUserId())
+                .role(user.getRole())
                 .build();
     }
 }
