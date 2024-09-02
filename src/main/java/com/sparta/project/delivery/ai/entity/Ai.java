@@ -1,4 +1,4 @@
-package com.sparta.project.delivery.ai.Entity;
+package com.sparta.project.delivery.ai.entity;
 
 import com.sparta.project.delivery.common.BaseEntity;
 import com.sparta.project.delivery.user.User;

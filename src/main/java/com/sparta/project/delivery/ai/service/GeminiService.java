@@ -1,6 +1,6 @@
 package com.sparta.project.delivery.ai.service;
 
-import com.sparta.project.delivery.ai.Entity.Ai;
+import com.sparta.project.delivery.ai.entity.Ai;
 import com.sparta.project.delivery.ai.config.GeminiInterface;
 import com.sparta.project.delivery.ai.dto.AiDto;
 import com.sparta.project.delivery.ai.dto.GeminiRequest;

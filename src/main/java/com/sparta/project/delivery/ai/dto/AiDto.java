@@ -1,6 +1,6 @@
 package com.sparta.project.delivery.ai.dto;
 
-import com.sparta.project.delivery.ai.Entity.Ai;
+import com.sparta.project.delivery.ai.entity.Ai;
 import com.sparta.project.delivery.user.User;
 import com.sparta.project.delivery.user.dto.UserDto;
 
