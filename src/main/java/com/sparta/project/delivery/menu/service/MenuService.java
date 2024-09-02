@@ -4,6 +4,7 @@ package com.sparta.project.delivery.menu.service;
 import com.sparta.project.delivery.auth.UserDetailsImpl;
 import com.sparta.project.delivery.common.exception.CustomException;
 import com.sparta.project.delivery.common.exception.DeliveryError;
+import com.sparta.project.delivery.common.type.UserRoleEnum;
 import com.sparta.project.delivery.menu.constant.MenuSearchType;
 import com.sparta.project.delivery.menu.dto.MenuDto;
 import com.sparta.project.delivery.menu.entity.Menu;
@@ -11,6 +12,8 @@ import com.sparta.project.delivery.menu.repository.MenuRepository;
 
 import com.sparta.project.delivery.store.entity.Store;
 import com.sparta.project.delivery.store.repository.StoreRepository;
+import com.sparta.project.delivery.user.dto.response.UserRoleResponse;
+import com.sparta.project.delivery.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +29,7 @@ import static com.sparta.project.delivery.common.exception.DeliveryError.*;
 public class MenuService {
     private final MenuRepository menuRepository;
     private final StoreRepository storeRepository;
+    private final UserService userService;
 
     public void createMenu(String storeId, MenuDto dto, UserDetailsImpl userDetails) {
         Store store = storeRepository.findById(storeId).orElseThrow(
@@ -104,7 +108,11 @@ public class MenuService {
     }
 
     private void checkStoreOwner(Store store, UserDetailsImpl userDetails) {
-        if (!store.getUser().getEmail().equals(userDetails.getEmail()))
-            throw new CustomException(STORE_IS_NOT_USER);
+        UserRoleResponse res= userService.getUserRole(userDetails);
+        if (!store.getUser().getEmail().equals(userDetails.getEmail())){
+            if (!res.role().equals(UserRoleEnum.MASTER) && !res.role().equals(UserRoleEnum.MANAGER)){
+                throw new CustomException(AUTH_INVALID_CREDENTIALS);
+            }
+        }
     }
 }

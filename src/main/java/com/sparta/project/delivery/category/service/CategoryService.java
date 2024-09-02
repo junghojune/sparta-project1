@@ -1,12 +1,16 @@
 package com.sparta.project.delivery.category.service;
 
+import com.sparta.project.delivery.auth.UserDetailsImpl;
 import com.sparta.project.delivery.category.dto.CategoryDto;
 import com.sparta.project.delivery.category.entity.Category;
 import com.sparta.project.delivery.category.repository.CategoryRepository;
 import com.sparta.project.delivery.common.exception.CustomException;
+import com.sparta.project.delivery.common.type.UserRoleEnum;
 import com.sparta.project.delivery.user.User;
 import com.sparta.project.delivery.user.dto.UserDto;
+import com.sparta.project.delivery.user.dto.response.UserRoleResponse;
 import com.sparta.project.delivery.user.repository.UserRepository;
+import com.sparta.project.delivery.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +26,7 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @Transactional(readOnly = true)
     public Page<CategoryDto> getCategories(Pageable pageable) {
@@ -29,13 +34,8 @@ public class CategoryService {
     }
 
     @Transactional
-    public void addCategory(UserDto userDto, CategoryDto dto) {
-        User user = userRepository.findById(userDto.userId())
-                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
-
-        if (!user.getRole().equals(MASTER) && !user.getRole().equals(MANAGER)) {
-            throw new CustomException(AUTH_INVALID_CREDENTIALS);
-        }
+    public void addCategory(UserDetailsImpl userDetails, CategoryDto dto) {
+        checkUserRole(userDetails);
 
         if (dto.name() == null || dto.name().isEmpty()) {
             throw new CustomException(CATEGORY_ARGS_EMPTY);
@@ -49,13 +49,8 @@ public class CategoryService {
     }
 
     @Transactional
-    public void deleteCategory(UserDto userDto, String categoryId) {
-        User user = userRepository.findById(userDto.userId())
-                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
-
-        if (!user.getRole().equals(MASTER) && !user.getRole().equals(MANAGER)) {
-            throw new CustomException(AUTH_INVALID_CREDENTIALS);
-        }
+    public void deleteCategory(UserDetailsImpl userDetails, String categoryId) {
+        checkUserRole(userDetails);
 
         if (categoryRepository.findById(categoryId).isEmpty()) {
             throw new CustomException(CATEGORY_NOT_FOUND);
@@ -65,13 +60,8 @@ public class CategoryService {
     }
 
     @Transactional
-    public void updateCategory(UserDto userDto, String categoryId, CategoryDto dto) {
-        User user = userRepository.findById(userDto.userId())
-                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
-
-        if (!user.getRole().equals(MASTER) && !user.getRole().equals(MANAGER)) {
-            throw new CustomException(AUTH_INVALID_CREDENTIALS);
-        }
+    public void updateCategory(UserDetailsImpl userDetails, String categoryId, CategoryDto dto) {
+        checkUserRole(userDetails);
 
         if (dto.name() == null || dto.name().isEmpty()) {
             throw new CustomException(CATEGORY_ARGS_EMPTY);
@@ -85,5 +75,12 @@ public class CategoryService {
                 .orElseThrow(() -> new CustomException(CATEGORY_NOT_FOUND));
 
         category.setName(dto.name());
+    }
+
+    private void checkUserRole(UserDetailsImpl userDetails) {
+        UserRoleResponse res = userService.getUserRole(userDetails);
+        if( !res.role().equals(MASTER) && !res.role().equals(MANAGER)) {
+            throw new CustomException(AUTH_INVALID_CREDENTIALS);
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.sparta.project.delivery.payment.service;
 
+import com.sparta.project.delivery.auth.UserDetailsImpl;
+import com.sparta.project.delivery.auth.UserDetailsServiceImpl;
 import com.sparta.project.delivery.common.exception.CustomException;
 import com.sparta.project.delivery.order.entity.Order;
 import com.sparta.project.delivery.order.repository.OrderRepository;
@@ -7,7 +9,9 @@ import com.sparta.project.delivery.payment.dto.PaymentDto;
 import com.sparta.project.delivery.payment.repository.PaymentRepository;
 import com.sparta.project.delivery.user.User;
 import com.sparta.project.delivery.user.dto.UserDto;
+import com.sparta.project.delivery.user.dto.response.UserRoleResponse;
 import com.sparta.project.delivery.user.repository.UserRepository;
+import com.sparta.project.delivery.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +28,8 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
+    private final UserService userService;
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
 
     @Transactional(readOnly = true)
     public Page<PaymentDto> getPaymentsByUser(UserDto userDto, Pageable pageable) {
@@ -67,7 +73,8 @@ public class PaymentService {
     }
 
     private void checkUserRole(User user) {
-        if (!user.getRole().equals(CUSTOMER) && !user.getRole().equals(MASTER)) {
+        UserRoleResponse res= userService.getUserRole(new UserDetailsImpl(user));
+        if (!res.role().equals(CUSTOMER) && !res.role().equals(MASTER)) {
             throw new CustomException(AUTH_INVALID_CREDENTIALS);
         }
     }
