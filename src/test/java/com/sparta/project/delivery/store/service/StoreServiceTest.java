@@ -159,10 +159,11 @@ public class StoreServiceTest {
     @Test
     void 음식점_삭제() {
         when(storeRepository.findById(anyString())).thenReturn(Optional.of(store));
-
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
         storeService.deleteStore(store.getStoreId(), userDetails);
 
         verify(storeRepository, times(1)).findById(anyString());
+        verify(userRepository, times(1)).findByEmail(anyString());
     }
 
 }
