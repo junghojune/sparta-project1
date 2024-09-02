@@ -32,15 +32,15 @@ public class AddressController {
     }
 
     // 로그인 한 사용자의 모든 주소 확인 - 에러 발생
-//    @GetMapping
-    // @Operation(summary = "주소지 조회 API", description = "로그인 한 사용자의 Address를 조회합니다.")
-//    public Page<AddressResponse> getAll(@AuthenticationPrincipal UserDetailsImpl userDetails,
-//                                        @ParameterObject @PageableDefault(
-//                    size = 10, sort = {"createdAt", "updatedAt"}, direction = Sort.Direction.DESC
-//            ) Pageable pageable
-//    ) {
-//        return addressService.getAll(userDetails.getUser(),pageable).map(AddressResponse::from);
-//    }
+    @GetMapping
+    @Operation(summary = "주소지 조회 API", description = "로그인 한 사용자의 Address를 조회합니다.")
+    public Page<AddressResponse> getAll(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                        @ParameterObject @PageableDefault(
+                    size = 10, sort = {"createdAt", "updatedAt"}, direction = Sort.Direction.DESC
+            ) Pageable pageable
+    ) {
+        return addressService.getAll(userDetails.getUser(),pageable).map(AddressResponse::from);
+    }
 
     @PutMapping("/{address_id}")
     @Operation(summary = "주소지 수정 API", description = "Address를 수정합니다.")

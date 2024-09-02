@@ -1,7 +1,6 @@
 package com.sparta.project.delivery.address.service;
 
 import com.sparta.project.delivery.address.dto.AddressDto;
-import com.sparta.project.delivery.address.dto.request.UpdateAddress;
 import com.sparta.project.delivery.address.dto.response.AddressResponse;
 import com.sparta.project.delivery.address.entity.Address;
 import com.sparta.project.delivery.address.repository.AddressRepository;
@@ -11,7 +10,7 @@ import com.sparta.project.delivery.common.type.UserRoleEnum;
 import com.sparta.project.delivery.user.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.query.Page;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -38,10 +37,9 @@ public class AddressService {
         return CommonResponse.success(address.get().getAddressId() + " 주소지가 등록되었습니다.");
     }
 
-//    public Page<AddressDto> getAll(User user, Pageable pageable) {
-//        return addressRepository.findAllByUser(user, pageable)
-//                .map(AddressDto::from);
-//    }
+    public Page<AddressDto> getAll(User user, Pageable pageable) {
+        return addressRepository.findAllByUser(user, pageable).map(AddressDto::from);
+    }
 
     @Transactional
     public CommonResponse<AddressResponse> update(String addressId, AddressDto dto, User user) {
