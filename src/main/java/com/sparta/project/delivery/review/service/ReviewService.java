@@ -14,11 +14,11 @@ import com.sparta.project.delivery.store.repository.StoreRepository;
 import com.sparta.project.delivery.user.User;
 import com.sparta.project.delivery.user.dto.UserDto;
 import com.sparta.project.delivery.user.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.sparta.project.delivery.common.exception.DeliveryError.*;
 
@@ -39,10 +39,13 @@ public class ReviewService {
         Order order = orderRepository.findByOrderIdAndUser(dto.orderId(), user).orElseThrow(() -> new CustomException(REVIEW_CREATION_FAILED_NOT_ORDER));
 
         Review review = dto.toEntity(user, order, order.getStore());
+        Store store = review.getStore();
+        updateStoreRatingAndReviewCount(store, review.getRating());
 
         reviewRepository.save(review);
     }
 
+    @Transactional(readOnly = true)
     public Page<ReviewDto> getReviewsByStoreId(String storeId, Pageable pageable) {
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new CustomException(STORE_NOT_FOUND));
 
@@ -79,4 +82,19 @@ public class ReviewService {
 
         review.setReportFlag(true);
     }
+
+    private void updateStoreRatingAndReviewCount(Store store, int newRating) {
+        int currentReviewCount = store.getReviewCount();
+        float currentAverageRating = store.getAverageRating();
+
+        // 새 평균평점 계산
+        float updatedAverageRating = (currentAverageRating * currentReviewCount + newRating) / (currentReviewCount + 1);
+
+        // 업데이트
+        store.setAverageRating(updatedAverageRating);
+        store.setReviewCount(currentReviewCount + 1);
+
+        storeRepository.save(store);
+    }
+
 }
