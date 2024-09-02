@@ -31,8 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.sparta.project.delivery.common.exception.DeliveryError.*;
-import static com.sparta.project.delivery.common.type.UserRoleEnum.CUSTOMER;
-import static com.sparta.project.delivery.common.type.UserRoleEnum.OWNER;
+import static com.sparta.project.delivery.common.type.UserRoleEnum.*;
 
 @RequiredArgsConstructor
 @Service
@@ -50,7 +49,7 @@ public class OrderService {
         User user = userRepository.findById(userDto.userId())
                 .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
-        if (user.getRole() != CUSTOMER) {
+        if ( !user.getRole().equals(CUSTOMER) && !user.getRole().equals(MASTER) ) {
             throw new CustomException(AUTH_INVALID_CREDENTIALS);
         }
 
@@ -61,7 +60,7 @@ public class OrderService {
         User user = userRepository.findById(userDto.userId())
                 .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
-        if (user.getRole() != OWNER) {
+        if (!user.getRole().equals(OWNER) && !user.getRole().equals(MASTER)) {
             throw new CustomException(AUTH_INVALID_CREDENTIALS);
         }
 

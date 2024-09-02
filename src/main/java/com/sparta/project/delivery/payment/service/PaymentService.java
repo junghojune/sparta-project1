@@ -8,17 +8,17 @@ import com.sparta.project.delivery.payment.repository.PaymentRepository;
 import com.sparta.project.delivery.user.User;
 import com.sparta.project.delivery.user.dto.UserDto;
 import com.sparta.project.delivery.user.repository.UserRepository;
-import io.swagger.v3.oas.annotations.servers.Server;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import static com.sparta.project.delivery.common.exception.DeliveryError.*;
 import static com.sparta.project.delivery.common.type.UserRoleEnum.CUSTOMER;
 
 @RequiredArgsConstructor
-@Server
+@Service
 public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final UserRepository userRepository;

@@ -19,6 +19,8 @@ public record StoreResponse(
         String address,
         String description,
         Set<MenuResponse> menus,
+        Float averageRating,
+        Integer reviewCount,
         Boolean isPublic,
         Boolean isDeleted
 ) {
@@ -39,9 +41,17 @@ public record StoreResponse(
                         .map(MenuResponse::from)
                         .collect(Collectors.toUnmodifiableSet())
                 )
+                .averageRating(roundToOneDecimalPlace(dto.averageRating()))
+                .reviewCount(dto.reviewCount())
                 .isPublic(dto.isPublic())
                 .isDeleted(dto.isDeleted())
                 .build();
     }
 
+    private static Float roundToOneDecimalPlace(Float value) {
+        if (value == 0) {
+            return 0f;
+        }
+        return Math.round(value * 10) / 10.0f;  // 소수점 첫째 자리까지 반올림
+    }
 }
