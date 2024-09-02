@@ -101,7 +101,7 @@ public class InquiryService {
     private void checkUserRole(UserDetailsImpl userDetails) {
         User user = userRepository.findByEmail(userDetails.getEmail()).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
         if (!user.getRole().equals(UserRoleEnum.MASTER) && !user.getRole().equals(UserRoleEnum.MANAGER)){
-            throw new CustomException(INVALID_ROLE);
+            throw new CustomException(AUTH_INVALID_CREDENTIALS);
         }
     }
 }

@@ -23,6 +23,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
 
+    @Transactional(readOnly = true)
     public Page<CategoryDto> getCategories(Pageable pageable) {
         return categoryRepository.findAll(pageable).map(CategoryDto::from);
     }
@@ -32,7 +33,7 @@ public class CategoryService {
         User user = userRepository.findById(userDto.userId())
                 .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
-        if (user.getRole().equals(OWNER) || user.getRole().equals(CUSTOMER)) {
+        if (!user.getRole().equals(MASTER) && !user.getRole().equals(MANAGER)) {
             throw new CustomException(AUTH_INVALID_CREDENTIALS);
         }
 
@@ -52,7 +53,7 @@ public class CategoryService {
         User user = userRepository.findById(userDto.userId())
                 .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
-        if (user.getRole().equals(MANAGER) || user.getRole().equals(MASTER)) {
+        if (!user.getRole().equals(MASTER) && !user.getRole().equals(MANAGER)) {
             throw new CustomException(AUTH_INVALID_CREDENTIALS);
         }
 
@@ -68,7 +69,7 @@ public class CategoryService {
         User user = userRepository.findById(userDto.userId())
                 .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
-        if (user.getRole().equals(MANAGER) || user.getRole().equals(MASTER)) {
+        if (!user.getRole().equals(MASTER) && !user.getRole().equals(MANAGER)) {
             throw new CustomException(AUTH_INVALID_CREDENTIALS);
         }
 

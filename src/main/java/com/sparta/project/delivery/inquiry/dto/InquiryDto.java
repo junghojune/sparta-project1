@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 public record InquiryDto(
         String inquiryId,
+        Long userId,
         String userEmail,
         String title,
         String content,
@@ -27,6 +28,7 @@ public record InquiryDto(
     public static InquiryDto from(Inquiry entity) {
         return InquiryDto.builder()
                 .inquiryId(entity.getInquiryId())
+                .userId(entity.getUser().getUserId())
                 .userEmail(entity.getUser().getEmail())
                 .title(entity.getTitle())
                 .content(entity.getContent())
